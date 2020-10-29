@@ -1,0 +1,37 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+allprojects {
+
+  wrapper {
+      gradleVersion = '6.6.1'
+  }
+
+    apply plugin: 'java'
+
+    repositories {
+        jcenter()
+        google()
+    }
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        sourceCompatibility '1.8'
+        targetCompatibility '1.8'
+    }
+
+    dependencies {
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
+        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+
+        test {
+            useJUnitPlatform()
+        }
+
+    }
+
+
+
+}

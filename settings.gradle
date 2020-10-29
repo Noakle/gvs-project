@@ -1,0 +1,3 @@
+rootProject.name = 'seb-gvs-20ws'
+include 'common'
+include 'distribution'
