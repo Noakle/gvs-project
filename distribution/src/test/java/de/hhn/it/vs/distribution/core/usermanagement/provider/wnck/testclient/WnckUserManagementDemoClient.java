@@ -4,6 +4,7 @@ package de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.testclient;
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
 import de.hhn.it.vs.distribution.core.usermanagement.UserManagementDemoClient;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class WnckUserManagementDemoClient {
@@ -22,8 +23,10 @@ public class WnckUserManagementDemoClient {
       case MOCK:
         userManagementService = new WnckUserManagementService();
         break;
-      case RMI:
       case SOCKET:
+        userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+        break;
+      case RMI:
       case REST:
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
@@ -36,7 +39,7 @@ public class WnckUserManagementDemoClient {
   }
 
   public static void main(String[] args) {
-    WnckUserManagementDemoClient client = new WnckUserManagementDemoClient(TestMode.MOCK);
+    WnckUserManagementDemoClient client = new WnckUserManagementDemoClient(TestMode.SOCKET);
     client.runDemo();
   }
 
