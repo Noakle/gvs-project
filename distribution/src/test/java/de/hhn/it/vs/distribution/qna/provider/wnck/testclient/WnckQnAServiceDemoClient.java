@@ -28,8 +28,8 @@ public class WnckQnAServiceDemoClient {
         userManagementService = new WnckUserManagementService();
         qnAService = new WnckQnAService(userManagementService);
         break;
-      case RMI:
       case SOCKET:
+      case RMI:
       case REST:
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
