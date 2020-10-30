@@ -9,10 +9,14 @@ import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
+import de.hhn.it.vs.distribution.sockets.Request;
+import de.hhn.it.vs.distribution.sockets.Response;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BDQnAServiceViaSockets implements BDQnAService {
@@ -61,9 +65,30 @@ public class BDQnAServiceViaSockets implements BDQnAService {
     }
   }
 
+  private Response sendAndGetResponse(final Request request) throws ServiceNotAvailableException {
+    // send request and wait for the response
+    try {
+      connectToService();
+      logger.debug("sending request " + request);
+      out.writeObject(request);
+      logger.debug("wait for response ...");
+      Response response = (Response) in.readObject();
+      logger.debug("Got response " + response);
+      disconnectFromService();
+      return response;
+    } catch (Exception ex) {
+      throw new ServiceNotAvailableException("Communication problem: " + ex.getMessage(), ex);
+    }
+  }
+
   @Override
   public long createArea(Token userToken, Area area) throws ServiceNotAvailableException,
       IllegalParameterException, InvalidTokenException {
+    Request request = new Request("createArea")
+        .addParameter("userToken", userToken)
+        .addParameter("area", area);
+    Response response = sendAndGetResponse(request);
+
 
     return 0;
   }
