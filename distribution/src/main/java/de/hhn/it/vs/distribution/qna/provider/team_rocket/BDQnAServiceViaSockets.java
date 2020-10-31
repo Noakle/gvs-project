@@ -84,7 +84,23 @@ public class BDQnAServiceViaSockets implements BDQnAService {
   @Override
   public long createArea(Token userToken, Area area)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    return 0;
+    Request request =
+        new Request("createArea").addParameter("userToken", userToken).addParameter("area", area);
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+    }
+    return (long) response.getReturnObject();
   }
 
   @Override
