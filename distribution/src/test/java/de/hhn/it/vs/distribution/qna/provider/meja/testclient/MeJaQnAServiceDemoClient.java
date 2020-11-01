@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.qna.provider.wnck.testclient;
+package de.hhn.it.vs.distribution.qna.provider.meja.testclient;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
@@ -6,19 +6,19 @@ import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManageme
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
-import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
-public class WnckQnAServiceDemoClient {
+public class MeJaQnAServiceDemoClient {
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(WnckQnAServiceDemoClient.class);
+          org.slf4j.LoggerFactory.getLogger(MeJaQnAServiceDemoClient.class);
 
   BDQnAService qnAService;
   private BDUserManagementService userManagementService;
 
-  public WnckQnAServiceDemoClient(final TestMode mode) {
+  public MeJaQnAServiceDemoClient(final TestMode mode) {
     instantiateBDClient(mode);
   }
 
@@ -28,8 +28,8 @@ public class WnckQnAServiceDemoClient {
         userManagementService = new WnckUserManagementService();
         qnAService = new WnckQnAService(userManagementService);
         break;
-      case SOCKET:
       case RMI:
+      case SOCKET:
       case REST:
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
@@ -40,7 +40,7 @@ public class WnckQnAServiceDemoClient {
   public static void main(String[] args) throws IllegalParameterException,
           ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
 
-    WnckQnAServiceDemoClient qnAServiceDemo = new WnckQnAServiceDemoClient(TestMode.MOCK);
+    MeJaQnAServiceDemoClient qnAServiceDemo = new MeJaQnAServiceDemoClient(TestMode.MOCK);
     qnAServiceDemo.runDemo();
   }
 
