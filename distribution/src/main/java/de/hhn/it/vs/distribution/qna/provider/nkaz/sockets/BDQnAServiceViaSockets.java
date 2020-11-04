@@ -10,6 +10,7 @@ import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,14 +30,14 @@ public class BDQnAServiceViaSockets implements BDQnAService {
   /*
 
 
-In jeder Fassadenmethode müssen Sie
-o Das Request-Objekt anlegen und konfigurieren
-o Das Request-Objekt versenden und das Response-Objekt empfangen
-o Das Response-Objekt analysieren und entweder den Rückgabewert weitergeben
-oder die im Response-Objekt enthaltene Exception neu aufwerfen.
-o Andere Exceptions auf die ServiceNotAvailableException mappen.
+  In jeder Fassadenmethode müssen Sie
+  o Das Request-Objekt anlegen und konfigurieren
+  o Das Request-Objekt versenden und das Response-Objekt empfangen
+  o Das Response-Objekt analysieren und entweder den Rückgabewert weitergeben
+  oder die im Response-Objekt enthaltene Exception neu aufwerfen.
+  o Andere Exceptions auf die ServiceNotAvailableException mappen.
 
-   */
+     */
 
   public BDQnAServiceViaSockets(final String hostname, final int portNumber) {
     this.hostname = hostname;
@@ -50,8 +51,8 @@ o Andere Exceptions auf die ServiceNotAvailableException mappen.
       in = new ObjectInputStream((socket.getInputStream()));
     } catch (IOException ex) {
       ex.printStackTrace();
-      throw new ServiceNotAvailableException("Cannot connect to host " + hostname + " with port "
-          + portNumber + ".", ex);
+      throw new ServiceNotAvailableException(
+          "Cannot connect to host " + hostname + " with port " + portNumber + ".", ex);
     }
   }
 
@@ -92,13 +93,31 @@ o Andere Exceptions auf die ServiceNotAvailableException mappen.
     }
   }
 
-  private void rethrowUnexpectedException(final Exception exceptionFromRemote) throws
-      ServiceNotAvailableException {
+  private void rethrowStandardExceptions(final Response response)
+      throws IllegalParameterException, ServiceNotAvailableException, InvalidTokenException {
+    Exception exceptionFromRemote = response.getExceptionObject();
+
+    // check all acceptable exception types and rethrow
+    if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+      throw (ServiceNotAvailableException) exceptionFromRemote;
+    }
+    if (exceptionFromRemote instanceof IllegalParameterException) {
+      throw (IllegalParameterException) exceptionFromRemote;
+    }
+    if (exceptionFromRemote instanceof InvalidTokenException) {
+      throw (InvalidTokenException) exceptionFromRemote;
+    }
+
+    rethrowUnexpectedException(exceptionFromRemote);
+  }
+
+  private void rethrowUnexpectedException(final Exception exceptionFromRemote)
+      throws ServiceNotAvailableException {
     // if we reach this part, than the exception is an exception we do not expect!
     logger.error("WTF - Unknown exception object in response: " + exceptionFromRemote);
     exceptionFromRemote.printStackTrace();
-    throw new ServiceNotAvailableException("Unknown exception received in response object.",
-        exceptionFromRemote);
+    throw new ServiceNotAvailableException(
+        "Unknown exception received in response object.", exceptionFromRemote);
   }
 
   @Override
@@ -111,55 +130,92 @@ o Andere Exceptions auf die ServiceNotAvailableException mappen.
     Response response = sendAndGetResponse(request);
 
     if (response.isException()) {
-      Exception exceptionFromRemote = response.getExceptionObject();
-
-      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
-        throw (ServiceNotAvailableException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof IllegalParameterException) {
-        throw (IllegalParameterException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof InvalidTokenException) {
-        throw (InvalidTokenException) exceptionFromRemote;
-      }
-
-      rethrowUnexpectedException(exceptionFromRemote);
-
+      rethrowStandardExceptions(response);
     }
-    //TODO check return object value or change return statement
-    return (Long)response.getReturnObject();
-  }
 
+    return (Long) response.getReturnObject();
+  }
 
   @Override
   public long createQuestion(Token userToken, long areaId, Question question)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request = new Request("");
-    return 0;
+    Request request = new Request("CREATE_QUESTION");
+    request
+        .addParameter("PARAM_USER", userToken)
+        .addParameter("PARAM_AREA_ID", areaId)
+        .addParameter("PARAM_QUESTION", question);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      rethrowStandardExceptions(response);
+    }
+
+    return (Long) response.getReturnObject();
   }
 
   @Override
   public long createAnswer(Token userToken, long areaId, long questionId, Answer answer)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    return 0;
+    Request request = new Request("CREATE_ANSWER");
+    request
+        .addParameter("PARAM_USER", userToken)
+        .addParameter("PARAM_AREA_ID", areaId)
+        .addParameter("PARAM_QUESTION_ID", questionId)
+        .addParameter("PARAM_ANSWER", answer);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      rethrowStandardExceptions(response);
+    }
+
+    return (Long) response.getReturnObject();
   }
 
   @Override
   public List<Long> getAreaIds(Token userToken)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    return null;
+    Request request = new Request("GET_AREA_IDS");
+    request.addParameter("PARAM_USER", userToken);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      rethrowStandardExceptions(response);
+    }
+    
+    return (List<Long>) response.getReturnObject();
   }
 
   @Override
   public Area getArea(Token userToken, long areaId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    return null;
+    Request request = new Request("GET_AREA");
+    request.addParameter("PARAM_USER", userToken).addParameter("PARAM_AREA_ID", areaId);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      rethrowStandardExceptions(response);
+    }
+
+    return (Area) response.getReturnObject();
   }
 
   @Override
   public List<Long> getQuestionIds(Token userToken, long areaId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    return null;
+    Request request = new Request("GET_QUESTION_IDS");
+    request.addParameter("PARAM_USER", userToken).addParameter("PARAM_AREA_ID", areaId);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      rethrowStandardExceptions(response);
+    }
+
+    return (List<Long>) response.getReturnObject();
   }
 
   @Override
@@ -182,18 +238,13 @@ o Andere Exceptions auf die ServiceNotAvailableException mappen.
 
   @Override
   public void updateArea(Token userToken, Area area)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
-  }
+      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {}
 
   @Override
   public void updateQuestion(Token userToken, long areaId, Question question)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
-  }
+      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {}
 
   @Override
   public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-  }
+      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {}
 }
