@@ -34,13 +34,15 @@ public class BDQnAServiceViaSockets implements BDQnAService {
     this.portNumber = portNumber;
   }
 
-  public void connectToService() {
+  private void connectToService() throws ServiceNotAvailableException {
     try {
       socket = new Socket(hostname, portNumber);
-      in = new ObjectInputStream(socket.getInputStream());
-      out = new ObjectOutputStream((socket.getOutputStream()));
+      out = new ObjectOutputStream(socket.getOutputStream());
+      in = new ObjectInputStream((socket.getInputStream()));
     } catch (IOException ex) {
       ex.printStackTrace();
+      throw new ServiceNotAvailableException("Cannot connect to host " + hostname + " with port "
+        + portNumber + ".", ex);
     }
   }
 
@@ -79,6 +81,35 @@ public class BDQnAServiceViaSockets implements BDQnAService {
     } catch (Exception ex) {
       throw new ServiceNotAvailableException("Communication problem: " + ex.getMessage(), ex);
     }
+  }
+
+  private void rethrowStandardExceptions(final Response response) throws
+    IllegalParameterException, ServiceNotAvailableException, InvalidTokenException {
+    Exception exceptionFromRemote = response.getExceptionObject();
+
+    // check all acceptable exception types and rethrow
+    if (exceptionFromRemote instanceof IllegalParameterException) {
+      throw (IllegalParameterException) exceptionFromRemote;
+    }
+
+    if (exceptionFromRemote instanceof InvalidTokenException) {
+      throw (InvalidTokenException) exceptionFromRemote;
+    }
+
+    if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+      throw (ServiceNotAvailableException) exceptionFromRemote;
+    }
+
+    rethrowUnexpectedException(exceptionFromRemote);
+  }
+
+  private void rethrowUnexpectedException(final Exception exceptionFromRemote) throws
+    ServiceNotAvailableException {
+    // if we reach this part, than the exception is an exception we do not expect!
+    logger.error("WTF - Unknown exception object in response: " + exceptionFromRemote);
+    exceptionFromRemote.printStackTrace();
+    throw new ServiceNotAvailableException("Unknown exception received in response object.",
+      exceptionFromRemote);
   }
 
   @Override
