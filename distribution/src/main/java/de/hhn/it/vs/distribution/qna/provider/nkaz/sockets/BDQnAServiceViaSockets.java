@@ -165,35 +165,175 @@ o Andere Exceptions auf die ServiceNotAvailableException mappen.
   @Override
   public Question getQuestion(Token userToken, long areaId, long questionId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("GET_QUESTION");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA_ID", areaId);
+    request.addParameter("PARAM_QUESTION_ID", questionId);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
     return null;
   }
 
   @Override
   public List<Long> getAnswerIds(Token userToken, long areaId, long questionId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("GET_ANSWER_IDS");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA_ID", areaId);
+    request.addParameter("PARAM_QUESTION_ID", questionId);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
     return null;
   }
 
   @Override
   public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("GET_ANSWER");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA_ID", areaId);
+    request.addParameter("PARAM_QUESTION_ID", questionId);
+    request.addParameter("PARAM_ANSWER_ID", answerId);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
+    //TODO useful return value
     return null;
   }
 
   @Override
   public void updateArea(Token userToken, Area area)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("UPDATE_AREA");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA", area);
 
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
   }
 
   @Override
   public void updateQuestion(Token userToken, long areaId, Question question)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("UPDATE_QUESTION");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA_ID", areaId);
+    request.addParameter("PARAM_QUESTION", question);
 
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
   }
 
   @Override
   public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request("UPDATE_ANSWER");
+    request.addParameter("PARAM_USER", userToken);
+    request.addParameter("PARAM_AREA_ID", areaId);
+    request.addParameter("PARAM_QUESTION_ID", questionId);
+    request.addParameter("PARAM_ANSWER", answer);
+
+    Response response = sendAndGetResponse(request);
+
+    if (response.isException()) {
+      Exception exceptionFromRemote = response.getExceptionObject();
+
+      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+        throw (ServiceNotAvailableException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof IllegalParameterException) {
+        throw (IllegalParameterException) exceptionFromRemote;
+      }
+      if (exceptionFromRemote instanceof InvalidTokenException) {
+        throw (InvalidTokenException) exceptionFromRemote;
+      }
+
+      rethrowUnexpectedException(exceptionFromRemote);
+
+    }
+
   }
 }
