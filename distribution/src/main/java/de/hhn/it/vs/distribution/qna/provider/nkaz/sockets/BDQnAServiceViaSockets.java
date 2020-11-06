@@ -297,20 +297,7 @@ public class BDQnAServiceViaSockets implements BDQnAService {
     Response response = sendAndGetResponse(request);
 
     if (response.isException()) {
-      Exception exceptionFromRemote = response.getExceptionObject();
-
-      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
-        throw (ServiceNotAvailableException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof IllegalParameterException) {
-        throw (IllegalParameterException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof InvalidTokenException) {
-        throw (InvalidTokenException) exceptionFromRemote;
-      }
-
-      rethrowUnexpectedException(exceptionFromRemote);
-
+      rethrowStandardExceptions(response);
     }
   }
 
