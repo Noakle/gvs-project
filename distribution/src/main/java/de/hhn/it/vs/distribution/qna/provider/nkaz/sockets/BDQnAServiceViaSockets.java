@@ -167,7 +167,7 @@ public class BDQnAServiceViaSockets implements BDQnAService {
   @Override
   public List<Long> getAreaIds(Token userToken)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request = new Request(QnAServiceRequestMethods.GET_ANSWER_IDS.toString());
+    Request request = new Request(QnAServiceRequestMethods.GET_AREA_IDS.toString());
     request.addParameter(QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
 
     Response response = sendAndGetResponse(request);
