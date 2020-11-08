@@ -6,6 +6,7 @@ import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.model.Answer;
 import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
+import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
@@ -19,7 +20,7 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(fdkhServiceServeOneClient.class);
 
-    BDQnAService qnAService;
+    WnckQnAService qnAService;
 
     public static final String CREATE_AREA = "qna.createarea";
     public static final String CREATE_QUESTION = "qna.createquestion";
@@ -43,22 +44,15 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
     public static final String PARAM_ANSWERE_ID = "param.amswereid";
 
 
-    /**
-     * Creates new thread to work on a single client request.
-     *
-     * @param socket  socket connected with the client
-     * @param service service to be used for the request
-     * @throws IOException               when problems with the socket connection occur
-     * @throws IllegalParameterException when called with null references
-     */
     public fdkhServiceServeOneClient(Socket socket, Object service) throws IOException, IllegalParameterException {
         super(socket, service);
-        qnAService = (BDQnAService) service;
+        qnAService = (WnckQnAService) service;
     }
 
     public void run() {
         Request request = null;
         Response response = null;
+
         try {
             request = (Request) in.readObject();
 
@@ -66,39 +60,51 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
             switch (methodToCall) {
                 case CREATE_AREA:
                     response = createArea(request);
+                    break;
 
                 case CREATE_QUESTION:
                     response = createQuestion(request);
+                    break;
 
                 case CREATE_ANSWERE:
                     response = createAnswere(request);
+                    break;
 
                 case GET_AREA_IDS:
                     response = getAreaIds(request);
+                    break;
 
                 case GET_AREA:
                     response = getArea(request);
+                    break;
 
                 case GET_QUESTION_IDS:
                     response = getQuestionIds(request);
+                    break;
 
                 case GET_QUESTION:
                     response = getQuestion(request);
+                    break;
 
                 case GET_ANSWER_IDS:
                     response = getAnswereIds(request);
+                    break;
 
                 case GET_ANSWER:
                     response = getAnswere(request);
+                    break;
 
                 case UPDATE_AREA:
                     response = updateArea(request);
+                    break;
 
                 case UPDATE_QUESTION:
                     response = updateQuestion(request);
+                    break;
 
                 case UPDATE_ANSWERE:
                     response = updateAnswere(request);
+                    break;
 
                 default:
                     ServiceNotAvailableException noMethodException = new ServiceNotAvailableException(
