@@ -14,6 +14,7 @@ public class fdkhServiceSocketServer {
     public static void main(String[] args) throws Exception {
         BDUserManagementService userManagementService = new WnckUserManagementService();
         BDQnAService qnAService = new WnckQnAService(userManagementService);
+
         SimpleDelegatingServer userManagementDelegatingServer = new SimpleDelegatingServer(1099,
                 userManagementService, UserManagementServiceServeOneClient.class);
 
