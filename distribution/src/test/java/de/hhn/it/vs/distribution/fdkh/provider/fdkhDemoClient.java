@@ -18,7 +18,7 @@ public class fdkhDemoClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(fdkhDemoClient.class);
 
-    BDQnAService qnAService;
+    private BDQnAService qnAService;
     private BDUserManagementService userManagementService;
 
     public fdkhDemoClient(final TestMode mode) {
@@ -33,7 +33,7 @@ public class fdkhDemoClient {
                 break;
             case SOCKET:
                 userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
-                //qnAService = new BDfdkhServiceViaSockets("localhost", 1098);
+                qnAService = new BDfdkhServiceViaSockets("localhost", 1098);
                 break;
             case RMI:
             case REST:
@@ -46,7 +46,7 @@ public class fdkhDemoClient {
     public static void main(String[] args) throws IllegalParameterException,
             ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
 
-        fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.MOCK);
+        fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.SOCKET);
         qnAServiceDemo.runDemo();
     }
 
