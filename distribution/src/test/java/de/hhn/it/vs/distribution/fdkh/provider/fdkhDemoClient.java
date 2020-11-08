@@ -8,6 +8,8 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
+import de.hhn.it.vs.distribution.fdkh.provider.socket.BDfdkhServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.wnck.testclient.WnckQnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
@@ -30,6 +32,9 @@ public class fdkhDemoClient {
                 qnAService = new WnckQnAService(userManagementService);
                 break;
             case SOCKET:
+                userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+                //qnAService = new BDfdkhServiceViaSockets("localhost", 1098);
+                break;
             case RMI:
             case REST:
             default:
