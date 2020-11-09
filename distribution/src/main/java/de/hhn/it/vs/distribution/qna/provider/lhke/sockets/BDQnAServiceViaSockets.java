@@ -125,7 +125,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (long) response.getReturnObject();
     }
@@ -143,7 +154,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (long) response.getReturnObject();
     }
@@ -162,7 +184,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (long) response.getReturnObject();
     }
@@ -178,7 +211,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (List<Long>) response.getReturnObject();
     }
@@ -195,7 +239,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (Area) response.getReturnObject();
     }
@@ -212,7 +267,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (List<Long>) response.getReturnObject();
     }
@@ -230,7 +296,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (Question) response.getReturnObject();
     }
@@ -248,7 +325,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (List<Long>) response.getReturnObject();
     }
@@ -267,7 +355,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return (Answer) response.getReturnObject();
     }
@@ -284,7 +383,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return;
     }
@@ -302,7 +412,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return;
     }
@@ -321,7 +442,18 @@ public class BDQnAServiceViaSockets implements BDQnAService {
         Response response = sendAndGetResponse(request);
 
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof InvalidTokenException) {
+                throw (InvalidTokenException) exceptionFromRemote;
+            }
+            rethrowUnexpectedException(exceptionFromRemote);
         }
         return;
     }
