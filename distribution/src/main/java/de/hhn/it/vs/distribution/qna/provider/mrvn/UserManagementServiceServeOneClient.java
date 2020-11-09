@@ -14,16 +14,25 @@ import java.net.Socket;
 
 public class UserManagementServiceServeOneClient extends AbstractServeOneClient {
 
+  /*
+   * Request types
+   */
   public static final String REGISTER = "usermanagement.register";
   public static final String LOGIN = "usermanagement.login";
   public static final String RESOLVE_USER = "usermanagement.resolveuser";
   public static final String CHANGE_NAME = "usermanagement.changename";
   public static final String GET_USERS = "usermanagement.getusers";
+
+  /*
+   * Param types
+   */
   public static final String PARAM_NAME = "param.name";
   public static final String PARAM_NEW_NAME = "param.newname";
   public static final String PARAM_EMAIL = "param.email";
   public static final String PARAM_PASSWORD = "param.password";
   public static final String PARAM_USER_TOKEN = "param.usertoken";
+
+  // Success answer for operations without return type
   public static final String SUCCESS = "Operation performed successfully";
 
   public final Database database;
@@ -42,6 +51,15 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
     database = null;
   }
 
+  /**
+   * Creates new thread to work on a single client request.
+   *
+   * @param socket socket connected with the client
+   * @param service service to be used for the request
+   * @param db DBStub object as database substitution
+   * @throws IOException when problems with the socket connection occur
+   * @throws IllegalParameterException when called with null references
+   */
   public UserManagementServiceServeOneClient(Socket socket, Object service, DbStub db)
           throws IOException, IllegalParameterException {
     super(socket, service);
@@ -107,12 +125,20 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
     return new Response(r, SUCCESS);
   }
 
-  public Response login(Request r) { return null; }
+  public Response login(Request r) {
+    return null;
+  }
 
   public Response resolveUser(Request r) {
     return null;
   }
 
+  /**
+   * Changes the name of a registered user.
+   *
+   * @param r Request containing the user
+   * @return Response containing either an exception or a success message
+   */
   public Response changeName(Request r) {
     User u;
     try {
@@ -126,6 +152,12 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
     return new Response(r, SUCCESS);
   }
 
+  /**
+   * Retrieves the user from the database and puts it into a response message.
+   *
+   * @param r Request that asked for the user
+   * @return the user
+   */
   public Response getUsers(Request r) {
     return new Response(r, database.getUserList());
   }
