@@ -10,6 +10,7 @@ import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUse
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.qna.provider.lhke.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class LhKeQnAServiceDemoClient {
