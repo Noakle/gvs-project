@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.mrvn.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,15 +9,15 @@ import java.util.List;
  */
 public class DbStub implements Database {
   /**
-   * Contains the string representation of all registered users.
+   * Contains the name mapped on all registered users.
    */
-  private ArrayList<User> userlist;
+  private HashMap<String, User> users;
 
   /**
    * Creates an empty database.
    */
   public DbStub() {
-    userlist = new ArrayList<>();
+    users = new HashMap<>();
   }
 
   /**
@@ -25,13 +26,23 @@ public class DbStub implements Database {
    * @return list of users
    */
   public List<User> getUserList() {
-    return new ArrayList<User>(userlist);
+    return new ArrayList<User>(users.values());
   }
 
   /**
    * Adds the passed user to the list of registered user.
    */
   public void addUser(User user) {
-    userlist.add(user);
+    users.put(user.getName(), user);
+  }
+
+  /**
+   * Returns the user with specified name
+   *
+   * @param name name of the user
+   * @return User object for the user
+   */
+  public User getUser(String name) {
+    return users.get(name);
   }
 }

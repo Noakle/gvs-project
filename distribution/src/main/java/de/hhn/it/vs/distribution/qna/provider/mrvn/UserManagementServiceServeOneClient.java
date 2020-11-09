@@ -4,6 +4,7 @@ import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.distribution.qna.provider.mrvn.data.Database;
 import de.hhn.it.vs.distribution.qna.provider.mrvn.data.DbStub;
+import de.hhn.it.vs.distribution.qna.provider.mrvn.data.NoSuchRegisteredUserException;
 import de.hhn.it.vs.distribution.qna.provider.mrvn.data.User;
 import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
@@ -21,11 +22,11 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
   public static final String PARAM_NAME = "param.name";
   public static final String PARAM_NEW_NAME = "param.newname";
   public static final String PARAM_EMAIL = "param.email";
-  public static final String PARAM_SECRET = "param.secret";
+  public static final String PARAM_PASSWORD = "param.password";
   public static final String PARAM_USER_TOKEN = "param.usertoken";
   public static final String SUCCESS = "Operation performed successfully";
 
-  public Database database;
+  public final Database database;
 
   /**
    * Creates new thread to work on a single client request.
@@ -97,7 +98,7 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
   public Response register(Request r) {
     User u;
     try {
-      u = new User((String) r.getParameter(PARAM_EMAIL), (String) r.getParameter(PARAM_SECRET),
+      u = new User((String) r.getParameter(PARAM_EMAIL), (String) r.getParameter(PARAM_PASSWORD),
               (String) r.getParameter(PARAM_NAME));
     } catch (IllegalParameterException e) {
       return new Response(r, e);
@@ -106,16 +107,23 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
     return new Response(r, SUCCESS);
   }
 
-  public Response login(Request r) {
-    return null;
-  }
+  public Response login(Request r) { return null; }
 
   public Response resolveUser(Request r) {
     return null;
   }
 
   public Response changeName(Request r) {
-    return null;
+    User u;
+    try {
+      u = database.getUser((String) r.getParameter(PARAM_NAME));
+      u.setName((String) r.getParameter(PARAM_NEW_NAME));
+    } catch (IllegalParameterException e) {
+      return new Response(r, e);
+    } catch (NullPointerException e) {
+      return new Response(r, new NoSuchRegisteredUserException());
+    }
+    return new Response(r, SUCCESS);
   }
 
   public Response getUsers(Request r) {
