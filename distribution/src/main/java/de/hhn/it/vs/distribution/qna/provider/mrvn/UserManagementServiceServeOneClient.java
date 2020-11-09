@@ -2,6 +2,9 @@ package de.hhn.it.vs.distribution.qna.provider.mrvn;
 
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
+import de.hhn.it.vs.distribution.qna.provider.mrvn.data.Database;
+import de.hhn.it.vs.distribution.qna.provider.mrvn.data.DbStub;
+import de.hhn.it.vs.distribution.qna.provider.mrvn.data.User;
 import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
@@ -20,6 +23,9 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
   public static final String PARAM_EMAIL = "param.email";
   public static final String PARAM_SECRET = "param.secret";
   public static final String PARAM_USER_TOKEN = "param.usertoken";
+  public static final String SUCCESS = "Operation performed successfully";
+
+  public Database database;
 
   /**
    * Creates new thread to work on a single client request.
@@ -29,8 +35,16 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
    * @throws IOException when problems with the socket connection occur
    * @throws IllegalParameterException when called with null references
    */
-  public UserManagementServiceServeOneClient(Socket socket, Object service) throws IOException, IllegalParameterException {
+  public UserManagementServiceServeOneClient(Socket socket, Object service) throws IOException,
+          IllegalParameterException {
     super(socket, service);
+    database = null;
+  }
+
+  public UserManagementServiceServeOneClient(Socket socket, Object service, DbStub db)
+          throws IOException, IllegalParameterException {
+    super(socket, service);
+    this.database = db;
   }
 
   /**
@@ -38,14 +52,12 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
    * received.
    */
   @Override
-  public void run()
-  {
+  public void run() {
     Request req; // store any request in these
     Response res;
     try {
       req = (Request) in.readObject(); // try reading from the socket
-    }
-    catch (IOException | ClassNotFoundException ex) {
+    } catch (IOException | ClassNotFoundException ex) {
       ex.printStackTrace(); // print whatever went wrong
       return; // no request received, so nothing to do
     }
@@ -76,8 +88,22 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
     }
   }
 
+  /**
+   * Registers a user into the database according to the request.
+   *
+   * @param r Request instance that triggered this routine
+   * @return the response message, containing either a succes message or an exception
+   */
   public Response register(Request r) {
-    return null;
+    User u;
+    try {
+      u = new User((String) r.getParameter(PARAM_EMAIL), (String) r.getParameter(PARAM_SECRET),
+              (String) r.getParameter(PARAM_NAME));
+    } catch (IllegalParameterException e) {
+      return new Response(r, e);
+    }
+    ((DbStub) database).addUser(u);
+    return new Response(r, SUCCESS);
   }
 
   public Response login(Request r) {
@@ -93,6 +119,6 @@ public class UserManagementServiceServeOneClient extends AbstractServeOneClient 
   }
 
   public Response getUsers(Request r) {
-    return null;
+    return new Response(r, database.getUserList());
   }
 }
