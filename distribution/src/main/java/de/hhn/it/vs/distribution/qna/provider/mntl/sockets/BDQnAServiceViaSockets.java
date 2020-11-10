@@ -266,7 +266,7 @@ public class BDQnAServiceViaSockets implements BDQnAService {
 
     @Override
     public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(UPDATE_ANSWER);
+        Request request = new RequestE(UPDATE_ANSWER);
         request.addParameter(PARAM_USER_TOKEN, userToken);
         request.addParameter(PARAM_AREA_ID, areaId);
         request.addParameter(PARAM_QUESTION_ID, questionId);
