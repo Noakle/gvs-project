@@ -1,13 +1,12 @@
 package de.hhn.it.vs.distribution.rbaw.provider.sockets;
 
+import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.User;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
-import de.hhn.it.vs.common.qna.model.Answer;
-import de.hhn.it.vs.common.qna.model.Area;
-import de.hhn.it.vs.common.qna.model.Question;
-import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
 
@@ -17,7 +16,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
-public class BDrbawServiceViaSockets implements BDQnAService {
+public class BDrbawServiceViaSockets implements BDUserManagementService {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(BDrbawServiceViaSockets.class);
 
@@ -112,153 +111,113 @@ public class BDrbawServiceViaSockets implements BDQnAService {
     }
 
     @Override
-    public long createArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(CREATE_AREA)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA, area);
+    public Token register(final String email, final String password, final String name) throws
+            IllegalParameterException, UserNameAlreadyAssignedException,
+            ServiceNotAvailableException {
+        Request request = new Request(REGISTER)
+                .addParameter(PARAM_EMAIL, email)
+                .addParameter(PARAM_SECRET, password)
+                .addParameter(PARAM_NAME, name);
+
         Response response = sendAndGetResponse(request);
+
         if (response.isException()) {
-            logger.error(response.getExceptionObject().getMessage());
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+
+            rethrowUnexpectedException(exceptionFromRemote);
         }
-        return (long) response.getReturnObject();
+        return (Token) response.getReturnObject();
     }
 
     @Override
-    public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(CREATE_QUESTION)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION, question);
+    public Token login(final String email, final String password) throws IllegalParameterException,
+            ServiceNotAvailableException {
+        Request request = new Request(LOGIN)
+                .addParameter(PARAM_EMAIL, email)
+                .addParameter(PARAM_SECRET, password);
         Response response = sendAndGetResponse(request);
+
         if (response.isException()) {
-            rethrowStandardExceptions(response);
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+
+            rethrowUnexpectedException(exceptionFromRemote);
         }
-        return (long) response.getReturnObject();
+        return (Token) response.getReturnObject();
     }
 
     @Override
-    public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(CREATE_ANSWER)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION_ID, questionId)
-                .addParameter(PARAM_ANSWER, answer);
+    public User resolveUser(final Token userToken) throws IllegalParameterException,
+            InvalidTokenException, ServiceNotAvailableException {
+        Request request = new Request(RESOLVE_USER).addParameter(PARAM_USER_TOKEN, userToken);
+
         Response response = sendAndGetResponse(request);
+
         if (response.isException()) {
             rethrowStandardExceptions(response);
         }
-        return (long) response.getReturnObject();
+
+
+        return (User) response.getReturnObject();
     }
 
     @Override
-    public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_AREA_IDS)
+    public List<User> getUsers(final Token userToken) throws IllegalParameterException,
+            InvalidTokenException, ServiceNotAvailableException {
+        Request request = new Request(GET_USERS)
                 .addParameter(PARAM_USER_TOKEN, userToken);
+
         Response response = sendAndGetResponse(request);
+
         if (response.isException()) {
             rethrowStandardExceptions(response);
         }
-        return (List<Long>) response.getReturnObject();
+
+
+        return (List<User>) response.getReturnObject();
     }
 
     @Override
-    public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_AREA)
+    public void changeName(final Token userToken, final String newName) throws
+            IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException,
+            ServiceNotAvailableException {
+
+        Request request = new Request(CHANGE_NAME)
                 .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId);
+                .addParameter(PARAM_NEW_NAME, newName);
+
         Response response = sendAndGetResponse(request);
+
         if (response.isException()) {
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
+            }
+
+
             rethrowStandardExceptions(response);
         }
-        return (Area) response.getReturnObject();
+
+
+        return;
+
     }
 
-    @Override
-    public List<Long> getQuestionIds(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_QUESTION_IDS)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-        return (List<Long>) response.getReturnObject();
-    }
-
-    @Override
-    public Question getQuestion(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_QUESTION)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION_ID, questionId);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-        return (Question) response.getReturnObject();
-    }
-
-    @Override
-    public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_ANSWER_IDS)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION_ID, questionId);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-        return (List<Long>) response.getReturnObject();
-    }
-
-    @Override
-    public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(GET_ANSWER)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION_ID, questionId)
-                .addParameter(PARAM_ANSWER_ID, answerId);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-        return (Answer) response.getReturnObject();
-    }
-
-    @Override
-    public void updateArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(UPDATE_AREA)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA, area);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-    }
-
-    @Override
-    public void updateQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(UPDATE_QUESTION)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION, question);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-    }
-
-    @Override
-    public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        Request request = new Request(UPDATE_ANSWER)
-                .addParameter(PARAM_USER_TOKEN, userToken)
-                .addParameter(PARAM_AREA_ID, areaId)
-                .addParameter(PARAM_QUESTION_ID, questionId)
-                .addParameter(PARAM_ANSWER, answer);
-        Response response = sendAndGetResponse(request);
-        if (response.isException()) {
-            rethrowStandardExceptions(response);
-        }
-    }
 }
