@@ -16,13 +16,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import static de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient.*;
+
 public class BDrbawServiceViaSockets implements BDUserManagementService {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(BDrbawServiceViaSockets.class);
 
     private String hostname;
     private int portNumber;
-    private Socket socket;
+    private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
@@ -33,34 +35,24 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
 
     private void connectToService() throws ServiceNotAvailableException {
         try {
-            socket = new Socket(hostname, portNumber);
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream((socket.getInputStream()));
-        } catch (IOException ex) {
+            clientSocket = new Socket(hostname, portNumber);
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            in = new ObjectInputStream((clientSocket.getInputStream()));
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw new ServiceNotAvailableException("Cannot connect to host " + hostname + " with port "
                     + portNumber + ".", ex);
         }
     }
 
-    private void disconnectFromService() {
+    private void disconnectFromService() throws ServiceNotAvailableException {
         try {
-            if (out != null) {
-                out.close();
-                out = null;
-            }
-            if (in != null) {
-                in.close();
-                in = null;
-            }
-
-            if (socket != null) {
-                socket.close();
-                socket = null;
-            }
+            in.close();
+            out.close();
+            clientSocket.close();
         } catch (IOException ex) {
             // Problems disconnecting should not terminate the interaction. So we only log the problem.
-            logger.warn("Problems disconnecting from service: " + ex.getMessage());
+            throw new ServiceNotAvailableException("can not end the connection" + ex);
         }
     }
 
@@ -110,6 +102,21 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
                 exceptionFromRemote);
     }
 
+    /**
+     * Registers the user in the system.
+     *
+     * @param email    identifies the user
+     * @param password authenticates the user to get access to his token. The password has to contain
+     *                 at minimum four characters.
+     * @param name     nick name of the user to be used in UIs. This nick name has to contain at
+     *                 minimum
+     *                 two visible characters.
+     * @return Token to identify the user
+     * @throws IllegalParameterException        if one of the parameters doesn't match the
+     *                                          specification
+     * @throws UserNameAlreadyAssignedException if the user name is already assigned to another user
+     * @throws ServiceNotAvailableException     if the service cannot be provided
+     */
     @Override
     public Token register(final String email, final String password, final String name) throws
             IllegalParameterException, UserNameAlreadyAssignedException,
@@ -139,6 +146,16 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
         return (Token) response.getReturnObject();
     }
 
+    /**
+     * Login for registered user.
+     *
+     * @param email    identifies the user
+     * @param password authenticates the user
+     * @return Token identifying the user
+     * @throws IllegalParameterException    if email or password do not match the values in the user
+     *                                      management service
+     * @throws ServiceNotAvailableException if the service cannot be provided
+     */
     @Override
     public Token login(final String email, final String password) throws IllegalParameterException,
             ServiceNotAvailableException {
@@ -162,6 +179,16 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
         return (Token) response.getReturnObject();
     }
 
+    /**
+     * returns user info.
+     *
+     * @param userToken token identifying the user
+     * @return user object related to the given token
+     * @throws IllegalParameterException    if a null reference is given
+     * @throws InvalidTokenException        if the token is no valid token from this user
+     *                                      management service
+     * @throws ServiceNotAvailableException if the service cannot be provided
+     */
     @Override
     public User resolveUser(final Token userToken) throws IllegalParameterException,
             InvalidTokenException, ServiceNotAvailableException {
@@ -177,6 +204,16 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
         return (User) response.getReturnObject();
     }
 
+    /**
+     * returns a list of the registered users.
+     *
+     * @param userToken token identifying the user
+     * @return List of user objects
+     * @throws IllegalParameterException    if a null reference is given
+     * @throws InvalidTokenException        if the token is no valid token from this user
+     *                                      management service
+     * @throws ServiceNotAvailableException if the service cannot be provided
+     */
     @Override
     public List<User> getUsers(final Token userToken) throws IllegalParameterException,
             InvalidTokenException, ServiceNotAvailableException {
@@ -193,6 +230,18 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
         return (List<User>) response.getReturnObject();
     }
 
+    /**
+     * allows a user to change his name.
+     *
+     * @param userToken Token identifying the user
+     * @param newName   new nick name. Must the same specification as in the register method.
+     * @throws IllegalParameterException        if either the token is a null reference or the name
+     *                                          does not match the specification.
+     * @throws InvalidTokenException            if the token is no valid token from this user
+     *                                          management service
+     * @throws UserNameAlreadyAssignedException if the name is already used by another user
+     * @throws ServiceNotAvailableException     if the service cannot be provided
+     */
     @Override
     public void changeName(final Token userToken, final String newName) throws
             IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException,
@@ -214,10 +263,5 @@ public class BDrbawServiceViaSockets implements BDUserManagementService {
 
             rethrowStandardExceptions(response);
         }
-
-
-        return;
-
     }
-
 }
