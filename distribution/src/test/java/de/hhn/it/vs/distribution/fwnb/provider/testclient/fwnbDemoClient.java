@@ -1,20 +1,23 @@
-package de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.testclient;
-
+package de.hhn.it.vs.distribution.fwnb.provider.testclient;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
+import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
+import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.UserManagementDemoClient;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
+import de.hhn.it.vs.distribution.fwnb.provider.sockets.BDfwnbServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
-public class WnckUserManagementDemoClient {
+public class fwnbDemoClient {
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(WnckUserManagementDemoClient.class);
+          org.slf4j.LoggerFactory.getLogger(fwnbDemoClient.class);
 
   BDUserManagementService userManagementService;
+  BDQnAService qnAService;
 
 
-  public WnckUserManagementDemoClient(TestMode mode) {
+  public fwnbDemoClient(TestMode mode) {
     instantiateBDClient(mode);
   }
 
@@ -22,9 +25,11 @@ public class WnckUserManagementDemoClient {
     switch (mode) {
       case MOCK:
         userManagementService = new WnckUserManagementService();
+        qnAService = new WnckQnAService(userManagementService);
         break;
       case SOCKET:
         userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+        qnAService = new BDfwnbServiceViaSockets("localhost", 1050);
         break;
       case RMI:
       case REST:
@@ -39,8 +44,9 @@ public class WnckUserManagementDemoClient {
   }
 
   public static void main(String[] args) {
-    WnckUserManagementDemoClient client = new WnckUserManagementDemoClient(TestMode.SOCKET);
+    fwnbDemoClient client = new fwnbDemoClient(TestMode.SOCKET);
     client.runDemo();
   }
 
 }
+
