@@ -11,7 +11,6 @@ import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.raat.sockets.BDqnaServiceViaSockets;
-import de.hhn.it.vs.distribution.qna.provider.raat.testclient.sockets.RaatQnADemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class RaatQnADemoClient {
@@ -33,7 +32,7 @@ public class RaatQnADemoClient {
           qnAService = new WnckQnAService(new WnckUserManagementService());
           break;
         case SOCKET:
-          qnAService = new BDqnaServiceViaSockets("localhost", 1101);
+          qnAService = new BDqnaServiceViaSockets("localhost", 1100);
           userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
           break;
         case RMI:
