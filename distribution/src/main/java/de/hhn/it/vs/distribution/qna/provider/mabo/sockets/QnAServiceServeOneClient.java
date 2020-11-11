@@ -55,6 +55,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   public QnAServiceServeOneClient(Socket socket, Object service)
       throws IOException, IllegalParameterException {
     super(socket, service);
+    qnAService = (WnckQnAService) service;
   }
 
   @Override
