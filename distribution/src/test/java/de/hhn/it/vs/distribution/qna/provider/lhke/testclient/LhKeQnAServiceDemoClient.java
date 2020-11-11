@@ -33,6 +33,7 @@ public class LhKeQnAServiceDemoClient {
             case SOCKET:
                 userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
                 qnAService = new BDQnAServiceViaSockets("localhost", 1100);
+                break;
             case RMI:
             case REST:
             default:
