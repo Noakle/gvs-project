@@ -17,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import static de.hhn.it.vs.distribution.qna.provider.team_rocket.QnAServiceServeOneClient.*;
+
 public class BDQnAServiceViaSockets implements BDQnAService {
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(BDQnAServiceViaSockets.class);
@@ -81,32 +83,48 @@ public class BDQnAServiceViaSockets implements BDQnAService {
     }
   }
 
+  private void rethrowStandardExceptions(final Response response)
+      throws IllegalParameterException, ServiceNotAvailableException, InvalidTokenException {
+    Exception exceptionFromRemote = response.getExceptionObject();
+
+    // check all acceptable exception types and rethrow
+    if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+      throw (ServiceNotAvailableException) exceptionFromRemote;
+    }
+    if (exceptionFromRemote instanceof IllegalParameterException) {
+      throw (IllegalParameterException) exceptionFromRemote;
+    }
+    if (exceptionFromRemote instanceof InvalidTokenException) {
+      throw (InvalidTokenException) exceptionFromRemote;
+    }
+
+    rethrowUnexpectedException(exceptionFromRemote);
+  }
+
+  private void rethrowUnexpectedException(final Exception exceptionFromRemote)
+      throws ServiceNotAvailableException {
+    // if we reach this part, than the exception is an exception we do not expect!
+    logger.error("WTF - Unknown exception object in response: " + exceptionFromRemote);
+    exceptionFromRemote.printStackTrace();
+    throw new ServiceNotAvailableException(
+        "Unknown exception received in response object.", exceptionFromRemote);
+  }
+
   @Override
   public long createArea(Token userToken, Area area)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request;
+    Request request =
+        new Request(CREATE_AREA)
+            .addParameter(PARAM_USER_TOKEN, userToken)
+            .addParameter(PARAM_AREA, area);
 
-    try {
-      request =
-          new Request("createArea").addParameter("userToken", userToken).addParameter("area", area);
-    } catch (Exception e) {
-      throw new ServiceNotAvailableException("Communication problem: " + e.getMessage(), e);
-    }
     Response response = sendAndGetResponse(request);
 
     if (response.isException()) {
-      Exception exceptionFromRemote = response.getExceptionObject();
-      if (exceptionFromRemote instanceof ServiceNotAvailableException) {
-        throw (ServiceNotAvailableException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof IllegalParameterException) {
-        throw (IllegalParameterException) exceptionFromRemote;
-      }
-      if (exceptionFromRemote instanceof InvalidTokenException) {
-        throw (InvalidTokenException) exceptionFromRemote;
-      }
+      rethrowStandardExceptions(response);
     }
-    return (long) response.getReturnObject();
+
+    return (Long) response.getReturnObject();
   }
 
   @Override
