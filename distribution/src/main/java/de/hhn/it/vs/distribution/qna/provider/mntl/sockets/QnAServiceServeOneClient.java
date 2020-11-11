@@ -26,9 +26,9 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
           org.slf4j.LoggerFactory.getLogger(QnAServiceServeOneClient.class);
 
 
-  public static final String CREATE_ANSWER = "managment.create_answer";
-  public static final String CREATE_AREA = "managment.create_area";
-  public static final String CREATE_QUESTION = "managment.create_question";
+  public static final String CREATE_ANSWER = "management.create_answer";
+  public static final String CREATE_AREA = "management.create_area";
+  public static final String CREATE_QUESTION = "management.create_question";
 
   public static final String PARAM_USER_TOKEN = "param.usertoken";
   public static final String PARAM_AREA_ID = "param.area_id";
