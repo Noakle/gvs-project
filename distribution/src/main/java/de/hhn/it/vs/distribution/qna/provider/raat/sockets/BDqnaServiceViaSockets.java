@@ -9,6 +9,9 @@ import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.QnAServiceServeOneClient;
+import de.hhn.it.vs.distribution.qna.provider.raat.sockets.QnaServiceServeOneClient.QnAServiceRequestMethods;
+import de.hhn.it.vs.distribution.qna.provider.raat.sockets.QnaServiceServeOneClient.QnAServiceRequestParameters;
+
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
 import java.io.IOException;
@@ -20,8 +23,7 @@ import java.util.List;
 public class BDqnaServiceViaSockets implements BDQnAService {
 
   private static final org.slf4j.Logger logger =
-      org.slf4j.LoggerFactory.getLogger(
-          de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.BDQnAServiceViaSockets.class);
+      org.slf4j.LoggerFactory.getLogger(BDqnaServiceViaSockets.class);
 
   private final String hostname;
   private final int portNumber;
@@ -105,7 +107,6 @@ public class BDqnaServiceViaSockets implements BDQnAService {
     }
   }
 
-
   private void rethrowStandardExceptions(final Response response)
       throws IllegalParameterException, ServiceNotAvailableException, InvalidTokenException {
     Exception exceptionFromRemote = response.getExceptionObject();
@@ -135,13 +136,10 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public long createArea(Token userToken, Area area)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.CREATE_AREA.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA.toString(), area);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnaServiceServeOneClient.QnAServiceRequestMethods.CREATE_AREA.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA.toString(), area);
 
     Response response = sendAndResponse(request);
 
@@ -156,13 +154,13 @@ public class BDqnaServiceViaSockets implements BDQnAService {
   public long createQuestion(Token userToken, long areaId, Question question)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
     Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.CREATE_QUESTION.toString());
+        new Request(QnAServiceRequestMethods.CREATE_QUESTION.toString());
     request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
+        .addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(),
             userToken)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
+        .addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(),
             areaId)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION.toString(),
+        .addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION.toString(),
             question);
 
     Response response = sendAndResponse(request);
@@ -176,18 +174,13 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public long createAnswer(Token userToken, long areaId, long questionId, Answer answer)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.CREATE_ANSWER.toString());
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.CREATE_ANSWER.toString());
     request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-            userToken)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-            areaId)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION_ID.toString(),
-            questionId)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.ANSWER.toString(),
-            answer);
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken)
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId)
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.QUESTION_ID.toString(), questionId)
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.ANSWER.toString(), answer);
 
     Response response = sendAndResponse(request);
 
@@ -200,11 +193,9 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public List<Long> getAreaIds(Token userToken)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_AREA_IDS.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.GET_AREA_IDS.toString());
+    request.addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
 
     Response response = sendAndResponse(request);
 
@@ -217,14 +208,11 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public Area getArea(Token userToken, long areaId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_AREA.toString());
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.GET_AREA.toString());
     request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-            userToken)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-            areaId);
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken)
+            .addParameter(QnAServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
 
     Response response = sendAndResponse(request);
 
@@ -237,14 +225,11 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public List<Long> getQuestionIds(Token userToken, long areaId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_QUESTION_IDS.toString());
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.GET_QUESTION_IDS.toString());
     request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-            userToken)
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-            areaId);
+            .addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken)
+            .addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
 
     Response response = sendAndResponse(request);
 
@@ -257,16 +242,11 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public Question getQuestion(Token userToken, long areaId, long questionId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_QUESTION.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-        areaId);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION_ID.toString(),
-            questionId);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnaServiceServeOneClient.QnAServiceRequestMethods.GET_QUESTION.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION_ID.toString(), questionId);
 
     Response response = sendAndResponse(request);
 
@@ -279,16 +259,11 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public List<Long> getAnswerIds(Token userToken, long areaId, long questionId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_ANSWER_IDS.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-        areaId);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION_ID.toString(),
-            questionId);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.GET_ANSWER_IDS.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION_ID.toString(), questionId);
 
     Response response = sendAndResponse(request);
 
@@ -301,18 +276,12 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.GET_ANSWER.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-        areaId);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION_ID.toString(),
-            questionId);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.ANSWER_ID.toString(),
-        answerId);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.GET_ANSWER.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION_ID.toString(), questionId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.ANSWER_ID.toString(), answerId);
 
     Response response = sendAndResponse(request);
 
@@ -325,13 +294,10 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public void updateArea(Token userToken, Area area)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.UPDATE_AREA.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA.toString(), area);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnaServiceServeOneClient.QnAServiceRequestMethods.UPDATE_AREA.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA.toString(), area);
 
     Response response = sendAndResponse(request);
 
@@ -342,15 +308,11 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public void updateQuestion(Token userToken, long areaId, Question question)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.UPDATE_QUESTION.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-        areaId);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION.toString(),
-        question);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.UPDATE_QUESTION.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION.toString(), question);
 
     Response response = sendAndResponse(request);
 
@@ -361,18 +323,12 @@ public class BDqnaServiceViaSockets implements BDQnAService {
 
   @Override
   public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-    Request request =
-        new Request(qnaServiceServeOneClient.qnaServiceRequestMethods.UPDATE_ANSWER.toString());
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.USER_TOKEN.toString(),
-        userToken);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.AREA_ID.toString(),
-        areaId);
-    request
-        .addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.QUESTION_ID.toString(),
-            questionId);
-    request.addParameter(qnaServiceServeOneClient.qnaServiceRequestParameters.ANSWER.toString(),
-        answer);
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+    Request request = new Request(QnAServiceServeOneClient.QnAServiceRequestMethods.UPDATE_ANSWER.toString());
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.USER_TOKEN.toString(), userToken);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.AREA_ID.toString(), areaId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.QUESTION_ID.toString(), questionId);
+    request.addParameter(QnaServiceServeOneClient.QnAServiceRequestParameters.ANSWER.toString(), answer);
 
     Response response = sendAndResponse(request);
 
