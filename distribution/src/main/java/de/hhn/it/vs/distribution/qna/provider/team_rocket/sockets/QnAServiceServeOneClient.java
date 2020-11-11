@@ -17,7 +17,7 @@ import java.util.List;
 
 public class QnAServiceServeOneClient extends AbstractServeOneClient {
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(QnAServiceServeOneClient.class);
+      org.slf4j.LoggerFactory.getLogger(QnAServiceServeOneClient.class);
 
   BDQnAService qnaService;
 
@@ -41,17 +41,16 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   public static final String PARAM_ANSWER_ID = "param.answerId";
   public static final String PARAM_ANSWER = "param.answer";
 
-
   /**
    * Creates new thread to work on a single client request.
    *
-   * @param socket  socket connected with the client
+   * @param socket socket connected with the client
    * @param service service to be used for the request
-   * @throws IOException               when problems with the socket connection occur
+   * @throws IOException when problems with the socket connection occur
    * @throws IllegalParameterException when called with null references
    */
-  public QnAServiceServeOneClient(final Socket socket, final Object service) throws
-          IOException, IllegalParameterException {
+  public QnAServiceServeOneClient(final Socket socket, final Object service)
+      throws IOException, IllegalParameterException {
     super(socket, service);
     qnaService = (BDQnAService) service;
   }
@@ -102,8 +101,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
           break;
         default:
           // Create a response with a ServiceNotAvailableException
-          ServiceNotAvailableException noMethodException = new ServiceNotAvailableException
-                  ("unknown Method: " + methodCall);
+          ServiceNotAvailableException noMethodException =
+              new ServiceNotAvailableException("unknown Method: " + methodCall);
           response = new Response(request, noMethodException);
       }
     } catch (Exception exception) {
@@ -118,7 +117,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createArea(final Request request) throws Exception {
-    Long areaId = qnaService.createArea(
+    Long areaId =
+        qnaService.createArea(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Area) request.getParameter(PARAM_AREA));
 
@@ -126,7 +126,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createQuestion(final Request request) throws Exception {
-    Long questionId = qnaService.createQuestion(
+    Long questionId =
+        qnaService.createQuestion(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID),
             (Question) request.getParameter(PARAM_QUESTION));
@@ -135,7 +136,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createAnswer(final Request request) throws Exception {
-    Long answerId = qnaService.createAnswer(
+    Long answerId =
+        qnaService.createAnswer(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID),
             (Long) request.getParameter(PARAM_QUESTION_ID),
@@ -151,7 +153,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getArea(final Request request) throws Exception {
-    Area area = qnaService.getArea(
+    Area area =
+        qnaService.getArea(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID));
 
@@ -159,7 +162,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getQuestionIds(final Request request) throws Exception {
-    List<Long> questionIds = qnaService.getQuestionIds(
+    List<Long> questionIds =
+        qnaService.getQuestionIds(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID));
 
@@ -167,7 +171,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getQuestion(final Request request) throws Exception {
-    Question question = qnaService.getQuestion(
+    Question question =
+        qnaService.getQuestion(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID),
             (Long) request.getParameter(PARAM_QUESTION_ID));
@@ -176,7 +181,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAnswerIds(final Request request) throws Exception {
-    List<Long> answerIds = qnaService.getAnswerIds(
+    List<Long> answerIds =
+        qnaService.getAnswerIds(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID),
             (Long) request.getParameter(PARAM_QUESTION_ID));
@@ -185,7 +191,8 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAnswer(final Request request) throws Exception {
-    Answer answer = qnaService.getAnswer(
+    Answer answer =
+        qnaService.getAnswer(
             (Token) request.getParameter(PARAM_USER_TOKEN),
             (Long) request.getParameter(PARAM_AREA_ID),
             (Long) request.getParameter(PARAM_QUESTION_ID),
@@ -196,29 +203,27 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
 
   private Response updateArea(final Request request) throws Exception {
     qnaService.updateArea(
-            (Token) request.getParameter(PARAM_USER_TOKEN),
-            (Area) request.getParameter(PARAM_AREA));
+        (Token) request.getParameter(PARAM_USER_TOKEN), (Area) request.getParameter(PARAM_AREA));
 
     return new Response(request);
   }
 
   private Response updateQuestion(final Request request) throws Exception {
     qnaService.updateQuestion(
-            (Token) request.getParameter(PARAM_USER_TOKEN),
-            (Long) request.getParameter(PARAM_AREA_ID),
-            (Question) request.getParameter(PARAM_QUESTION));
+        (Token) request.getParameter(PARAM_USER_TOKEN),
+        (Long) request.getParameter(PARAM_AREA_ID),
+        (Question) request.getParameter(PARAM_QUESTION));
 
     return new Response(request);
   }
 
   private Response updateAnswer(final Request request) throws Exception {
     qnaService.updateAnswer(
-            (Token) request.getParameter(PARAM_USER_TOKEN),
-            (Long) request.getParameter(PARAM_AREA_ID),
-            (Long) request.getParameter(PARAM_QUESTION_ID),
-            (Answer) request.getParameter(PARAM_ANSWER));
+        (Token) request.getParameter(PARAM_USER_TOKEN),
+        (Long) request.getParameter(PARAM_AREA_ID),
+        (Long) request.getParameter(PARAM_QUESTION_ID),
+        (Answer) request.getParameter(PARAM_ANSWER));
 
     return new Response(request);
   }
-
 }

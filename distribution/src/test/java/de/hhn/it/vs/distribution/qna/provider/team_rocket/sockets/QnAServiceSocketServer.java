@@ -9,18 +9,18 @@ import de.hhn.it.vs.distribution.sockets.SimpleDelegatingServer;
 
 public class QnAServiceSocketServer {
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(QnAServiceSocketServer.class);
-
+      org.slf4j.LoggerFactory.getLogger(QnAServiceSocketServer.class);
 
   public static void main(String[] args) throws Exception {
     BDUserManagementService userManagementService = new WnckUserManagementService();
     BDQnAService qnaService = new WnckQnAService(userManagementService);
 
-    SimpleDelegatingServer delegatingServerUserManagement = new SimpleDelegatingServer(1099,
-            userManagementService, UserManagementServiceServeOneClient.class);
+    SimpleDelegatingServer delegatingServerUserManagement =
+        new SimpleDelegatingServer(
+            1099, userManagementService, UserManagementServiceServeOneClient.class);
     delegatingServerUserManagement.foreverAcceptAndDelegate();
-    SimpleDelegatingServer delegatingServerQnAService = new SimpleDelegatingServer(1101, qnaService, QnAServiceServeOneClient.class);
+    SimpleDelegatingServer delegatingServerQnAService =
+        new SimpleDelegatingServer(1101, qnaService, QnAServiceServeOneClient.class);
     delegatingServerQnAService.foreverAcceptAndDelegate();
-
   }
 }
