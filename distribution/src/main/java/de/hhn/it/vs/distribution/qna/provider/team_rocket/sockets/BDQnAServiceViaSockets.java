@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.qna.provider.team_rocket;
+package de.hhn.it.vs.distribution.qna.provider.team_rocket.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
-import static de.hhn.it.vs.distribution.qna.provider.team_rocket.QnAServiceServeOneClient.*;
+import static de.hhn.it.vs.distribution.qna.provider.team_rocket.sockets.QnAServiceServeOneClient.*;
 
 public class BDQnAServiceViaSockets implements BDQnAService {
   private static final org.slf4j.Logger logger =

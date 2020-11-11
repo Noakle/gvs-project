@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.qna.provider.team_rocket;
+package de.hhn.it.vs.distribution.qna.provider.team_rocket.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
