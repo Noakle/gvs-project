@@ -14,6 +14,9 @@ import de.hhn.it.vs.distribution.qna.provider.wnck.testclient.WnckQnAServiceDemo
 import de.hhn.it.vs.distribution.rzdf.provider.sockets.BDrzdfServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+/**
+ * Created by David Flaig and Rick Zolnierek on 11.11.2020
+ */
 public class rzdfDemoClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(rzdfDemoClient.class);

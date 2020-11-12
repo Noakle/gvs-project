@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Created by David Flaig and Rick Zolnierek on 11.11.2020
  */
-
 public class rzdfServiceServeOneClient extends AbstractServeOneClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(rzdfServiceServeOneClient.class);

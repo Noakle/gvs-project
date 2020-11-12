@@ -7,6 +7,9 @@ import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient;
 import de.hhn.it.vs.distribution.sockets.SimpleDelegatingServer;
 
+/**
+ * Created by David Flaig and Rick Zolnierek on 11.11.2020
+ */
 public class rzdfServiceSocketServer {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(rzdfServiceSocketServer.class);

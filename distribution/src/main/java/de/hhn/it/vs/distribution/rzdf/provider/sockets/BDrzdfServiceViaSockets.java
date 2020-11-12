@@ -22,7 +22,6 @@ import static de.hhn.it.vs.distribution.rzdf.provider.sockets.rzdfServiceServeOn
 /**
  * Created by David Flaig and Rick Zolnierek on 11.11.2020
  */
-
 public class BDrzdfServiceViaSockets implements BDQnAService{
 
     private static final org.slf4j.Logger logger =
