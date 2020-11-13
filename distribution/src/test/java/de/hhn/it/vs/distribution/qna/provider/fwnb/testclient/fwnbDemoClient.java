@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.fwnb.provider.testclient;
+package de.hhn.it.vs.distribution.qna.provider.fwnb.testclient;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
@@ -6,7 +6,7 @@ import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.UserManagementDemoClient;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
-import de.hhn.it.vs.distribution.fwnb.provider.sockets.BDfwnbServiceViaSockets;
+import de.hhn.it.vs.distribution.qna.provider.fwnb.sockets.BDfwnbServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class fwnbDemoClient {

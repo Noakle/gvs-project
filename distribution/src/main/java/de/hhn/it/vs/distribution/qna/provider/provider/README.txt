@@ -1,2 +1,0 @@
-Leonhard Bosch
-Nico Martin
