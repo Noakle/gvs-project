@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.fdkh.provider;
+package de.hhn.it.vs.distribution.qna.provider.fdkh;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
@@ -9,9 +9,8 @@ import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
-import de.hhn.it.vs.distribution.fdkh.provider.socket.BDfdkhServiceViaSockets;
+import de.hhn.it.vs.distribution.qna.provider.fdkh.socket.BDfdkhServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
-import de.hhn.it.vs.distribution.qna.provider.wnck.testclient.WnckQnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class fdkhDemoClient {
