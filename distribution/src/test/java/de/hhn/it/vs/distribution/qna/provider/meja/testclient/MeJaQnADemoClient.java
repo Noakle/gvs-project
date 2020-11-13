@@ -7,7 +7,7 @@ import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.UserManagementDemoClient;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
-import de.hhn.it.vs.distribution.meja.provider.sockets.BDQnAServiceViaSockets;
+import de.hhn.it.vs.distribution.qna.provider.meja.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 /**

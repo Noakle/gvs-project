@@ -5,7 +5,6 @@ import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManageme
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient;
-import de.hhn.it.vs.distribution.meja.provider.sockets.QnAServiceServeOneClient;
 import de.hhn.it.vs.distribution.sockets.SimpleDelegatingServer;
 
 /**
