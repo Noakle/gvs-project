@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.pp.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.pp.sockets;
 
 import static de.hhn.it.vs.distribution.fdkh.provider.socket.fdkhServiceServeOneClient.CREATE_ANSWERE;
 import static de.hhn.it.vs.distribution.fdkh.provider.socket.fdkhServiceServeOneClient.CREATE_AREA;

@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.pp.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.pp.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
