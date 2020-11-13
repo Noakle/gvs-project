@@ -1,15 +1,12 @@
-package de.hhn.it.vs.distribution.pyle.sockets;
+package de.hhn.it.vs.distribution.qna.provider.pyle.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.Token;
-import de.hhn.it.vs.common.core.usermanagement.User;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
-import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 public class PyleServiceServeOneClient extends AbstractPyleServerOneClient {
 

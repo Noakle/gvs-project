@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.pyle.sockets;
+package de.hhn.it.vs.distribution.qna.provider.pyle.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.Token;

@@ -1,7 +1,4 @@
-package de.hhn.it.vs.distribution.pyle.sockets;
-
-import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
-import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
+package de.hhn.it.vs.distribution.qna.provider.pyle.sockets;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
