@@ -1,8 +1,6 @@
-package de.hhn.it.vs.distribution.meja.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.meja.sockets;
 
-import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.Token;
-import de.hhn.it.vs.common.core.usermanagement.User;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.model.Answer;
