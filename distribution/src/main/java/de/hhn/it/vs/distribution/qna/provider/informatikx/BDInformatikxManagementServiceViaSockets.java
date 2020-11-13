@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.informatikx.provider;
+package de.hhn.it.vs.distribution.qna.provider.informatikx;
 
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
