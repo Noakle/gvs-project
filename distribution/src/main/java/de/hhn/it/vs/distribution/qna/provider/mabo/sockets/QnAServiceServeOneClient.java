@@ -8,7 +8,7 @@ import de.hhn.it.vs.common.qna.model.Answer;
 import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
-import de.hhn.it.vs.distribution.fdkh.provider.socket.fdkhServiceServeOneClient;
+import de.hhn.it.vs.distribution.qna.provider.fdkh.socket.fdkhServiceServeOneClient;
 import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;

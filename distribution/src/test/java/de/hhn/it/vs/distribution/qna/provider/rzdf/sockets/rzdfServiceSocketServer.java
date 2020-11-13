@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.rzdf.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.rzdf.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
