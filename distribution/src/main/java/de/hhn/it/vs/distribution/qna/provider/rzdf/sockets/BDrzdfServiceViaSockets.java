@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.rzdf.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.rzdf.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
@@ -16,8 +16,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
-
-import static de.hhn.it.vs.distribution.rzdf.provider.sockets.rzdfServiceServeOneClient.*;
 
 /**
  * Created by David Flaig and Rick Zolnierek on 11.11.2020
@@ -121,9 +119,9 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public long createArea(Token userToken, Area area) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(CREATE_AREA)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA, area);
+            Request request = new Request(rzdfServiceServeOneClient.CREATE_AREA)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA, area);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -135,10 +133,10 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public long createQuestion(Token userToken, long areaId, Question question) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(CREATE_QUESTION)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION, question);
+            Request request = new Request(rzdfServiceServeOneClient.CREATE_QUESTION)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION, question);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -150,11 +148,11 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(CREATE_ANSWER)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION_ID, questionId)
-            .addParameter(PARAM_ANSWER, answer);
+            Request request = new Request(rzdfServiceServeOneClient.CREATE_ANSWER)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION_ID, questionId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_ANSWER, answer);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -166,8 +164,8 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public List<Long> getAreaIds(Token userToken) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_AREA_IDS)
-            .addParameter(PARAM_USER_TOKEN, userToken);
+            Request request = new Request(rzdfServiceServeOneClient.GET_AREA_IDS)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -179,9 +177,9 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public Area getArea(Token userToken, long areaId) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_AREA)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId);
+            Request request = new Request(rzdfServiceServeOneClient.GET_AREA)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -193,9 +191,9 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public List<Long> getQuestionIds(Token userToken, long areaId) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_QUESTION_IDS)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId);
+            Request request = new Request(rzdfServiceServeOneClient.GET_QUESTION_IDS)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -207,10 +205,10 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public Question getQuestion(Token userToken, long areaId, long questionId) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_QUESTION)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION_ID, questionId);
+            Request request = new Request(rzdfServiceServeOneClient.GET_QUESTION)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION_ID, questionId);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -222,10 +220,10 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_ANSWER_IDS)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION_ID, questionId);
+            Request request = new Request(rzdfServiceServeOneClient.GET_ANSWER_IDS)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION_ID, questionId);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -237,11 +235,11 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(GET_ANSWER)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION_ID, questionId)
-            .addParameter(PARAM_ANSWER_ID, answerId);
+            Request request = new Request(rzdfServiceServeOneClient.GET_ANSWER)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION_ID, questionId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_ANSWER_ID, answerId);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -253,9 +251,9 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public void updateArea(Token userToken, Area area) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(UPDATE_AREA)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA, area);
+            Request request = new Request(rzdfServiceServeOneClient.UPDATE_AREA)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA, area);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -267,10 +265,10 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public void updateQuestion(Token userToken, long areaId, Question question) throws 
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-            Request request = new Request(UPDATE_QUESTION)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION, question);
+            Request request = new Request(rzdfServiceServeOneClient.UPDATE_QUESTION)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION, question);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());
@@ -281,11 +279,11 @@ public class BDrzdfServiceViaSockets implements BDQnAService{
 
     public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws  
         ServiceNotAvailableException, IllegalParameterException, InvalidTokenException{
-            Request request = new Request(UPDATE_ANSWER)
-            .addParameter(PARAM_USER_TOKEN, userToken)
-            .addParameter(PARAM_AREA_ID, areaId)
-            .addParameter(PARAM_QUESTION_ID, questionId)
-            .addParameter(PARAM_ANSWER, answer);
+            Request request = new Request(rzdfServiceServeOneClient.UPDATE_ANSWER)
+            .addParameter(rzdfServiceServeOneClient.PARAM_USER_TOKEN, userToken)
+            .addParameter(rzdfServiceServeOneClient.PARAM_AREA_ID, areaId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_QUESTION_ID, questionId)
+            .addParameter(rzdfServiceServeOneClient.PARAM_ANSWER, answer);
             Response response = sendAndGetResponse(request);
         if (response.isException()) {
             logger.error(response.getExceptionObject().getMessage());

@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.fdkh.provider;
+package de.hhn.it.vs.distribution.qna.provider.rzdf.testclient;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
@@ -9,19 +9,21 @@ import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
-import de.hhn.it.vs.distribution.fdkh.provider.socket.BDfdkhServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
-import de.hhn.it.vs.distribution.qna.provider.wnck.testclient.WnckQnAServiceDemoClient;
+import de.hhn.it.vs.distribution.qna.provider.rzdf.sockets.BDrzdfServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
-public class fdkhDemoClient {
+/**
+ * Created by David Flaig and Rick Zolnierek on 11.11.2020
+ */
+public class rzdfDemoClient {
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(fdkhDemoClient.class);
+            org.slf4j.LoggerFactory.getLogger(rzdfDemoClient.class);
 
     private BDQnAService qnAService;
     private BDUserManagementService userManagementService;
 
-    public fdkhDemoClient(final TestMode mode) {
+    public rzdfDemoClient(final TestMode mode) {
         instantiateBDClient(mode);
     }
 
@@ -33,7 +35,7 @@ public class fdkhDemoClient {
                 break;
             case SOCKET:
                 userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
-                qnAService = new BDfdkhServiceViaSockets("localhost", 1098);
+                qnAService = new BDrzdfServiceViaSockets("localhost", 1098);
                 break;
             case RMI:
             case REST:
@@ -46,7 +48,7 @@ public class fdkhDemoClient {
     public static void main(String[] args) throws IllegalParameterException,
             ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
 
-        fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.SOCKET);
+        rzdfDemoClient qnAServiceDemo = new rzdfDemoClient(TestMode.SOCKET);
         qnAServiceDemo.runDemo();
     }
 

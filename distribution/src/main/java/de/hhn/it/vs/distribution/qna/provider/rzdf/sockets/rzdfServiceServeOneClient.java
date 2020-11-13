@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.fdkh.provider.socket;
+package de.hhn.it.vs.distribution.qna.provider.rzdf.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
@@ -7,7 +7,6 @@ import de.hhn.it.vs.common.qna.model.Answer;
 import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
-import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.sockets.AbstractServeOneClient;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
@@ -16,48 +15,61 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-public class fdkhServiceServeOneClient extends AbstractServeOneClient {
+/**
+ * Created by David Flaig and Rick Zolnierek on 11.11.2020
+ */
+public class rzdfServiceServeOneClient extends AbstractServeOneClient {
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(fdkhServiceServeOneClient.class);
+            org.slf4j.LoggerFactory.getLogger(rzdfServiceServeOneClient.class);
 
     WnckQnAService qnAService;
 
     public static final String CREATE_AREA = "qna.createarea";
     public static final String CREATE_QUESTION = "qna.createquestion";
-    public static final String CREATE_ANSWERE = "qna.createanswere";
+    public static final String CREATE_ANSWER = "qna.createanswer";
     public static final String GET_AREA_IDS = "qna.getareaids";
     public static final String GET_AREA = "qna.getarea";
     public static final String GET_QUESTION_IDS = "qna.getquestionsids";
     public static final String GET_QUESTION = "qna.getquestions";
     public static final String GET_ANSWER_IDS = "qna.getanswerids";
-    public static final String GET_ANSWER = "qna.getanswere";
+    public static final String GET_ANSWER = "qna.getanswer";
     public static final String UPDATE_AREA = "qna.updatearea";
     public static final String UPDATE_QUESTION = "qna.updatequestion";
-    public static final String UPDATE_ANSWERE = "qna.updateanswere";
+    public static final String UPDATE_ANSWER = "qna.updateanswer";
 
     public static final String PARAM_USER_TOKEN = "param.usertoken";
     public static final String PARAM_AREA = "param.area";
     public static final String PARAM_AREA_ID = "param.areaid";
     public static final String PARAM_QUESTION = "param.question";
     public static final String PARAM_QUESTION_ID = "param.questionid";
-    public static final String PARAM_ANSWERE = "param.answere";
-    public static final String PARAM_ANSWERE_ID = "param.amswereid";
+    public static final String PARAM_ANSWER = "param.answer";
+    public static final String PARAM_ANSWER_ID = "param.answerid";
+    
 
-
-    public fdkhServiceServeOneClient(Socket socket, Object service) throws IOException, IllegalParameterException {
+    /**
+     * Creates new thread to work on a single client request.
+     *
+     * @param socket  socket connected with the client
+     * @param service service to be used for the request
+     * @throws IOException               when problems with the socket connection occur
+     * @throws IllegalParameterException when called with null references
+     */
+    public rzdfServiceServeOneClient(Socket socket, Object service) throws
+            IOException, IllegalParameterException {
         super(socket, service);
         qnAService = (WnckQnAService) service;
     }
 
+    @Override
     public void run() {
         Request request = null;
         Response response = null;
-
         try {
             request = (Request) in.readObject();
 
-            String methodToCall = request.getMethodToCall();
-            switch (methodToCall) {
+            String methodCall = request.getMethodToCall();
+
+            switch (methodCall) {
                 case CREATE_AREA:
                     response = createArea(request);
                     break;
@@ -66,8 +78,8 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
                     response = createQuestion(request);
                     break;
 
-                case CREATE_ANSWERE:
-                    response = createAnswere(request);
+                case CREATE_ANSWER:
+                    response = createAnswer(request);
                     break;
 
                 case GET_AREA_IDS:
@@ -87,11 +99,11 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
                     break;
 
                 case GET_ANSWER_IDS:
-                    response = getAnswereIds(request);
+                    response = getAnswerIds(request);
                     break;
 
                 case GET_ANSWER:
-                    response = getAnswere(request);
+                    response = getAnswer(request);
                     break;
 
                 case UPDATE_AREA:
@@ -102,13 +114,13 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
                     response = updateQuestion(request);
                     break;
 
-                case UPDATE_ANSWERE:
-                    response = updateAnswere(request);
+                case UPDATE_ANSWER:
+                    response = updateAnswer(request);
                     break;
-
                 default:
-                    ServiceNotAvailableException noMethodException = new ServiceNotAvailableException(
-                            "Unknown method name: " + methodToCall);
+                    // Create a response with a ServiceNotAvailableException
+                    ServiceNotAvailableException noMethodException = new ServiceNotAvailableException
+                            ("Method with name unknown. " + methodCall);
                     response = new Response(request, noMethodException);
             }
         } catch (Exception e) {
@@ -118,14 +130,15 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
         try {
             out.writeObject(response);
         } catch (IOException e1) {
-            logger.error("Problem writing the response: " + e1.getMessage());
+            logger.error("Problems writing the response: " + e1.getMessage());
         }
+
     }
 
-    private Response createArea(final Request request) throws Exception {
-        long t;
 
-        t = qnAService.createArea(
+    private Response createArea(final Request request) throws Exception {
+
+        long t = qnAService.createArea(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
                 (Area) request.getParameter(PARAM_AREA));
         Response r = new Response(request);
@@ -145,21 +158,21 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
         return r;
     }
 
-    private Response createAnswere(final Request request) throws Exception {
+    private Response createAnswer(final Request request) throws Exception {
         long t;
 
         t = qnAService.createAnswer(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
                 (long) request.getParameter(PARAM_AREA_ID),
                 (long) request.getParameter(PARAM_QUESTION_ID),
-                (Answer) request.getParameter(PARAM_ANSWERE));
+                (Answer) request.getParameter(PARAM_ANSWER));
         Response r = new Response(request);
         r.setReturnObject(t);
 
         return r;
     }
 
-    private Response getArea(final Request request) throws Exception {
+    private Response getAreaIds(final Request request) throws Exception {
         Area ar = null;
 
         ar = qnAService.getArea(
@@ -171,8 +184,7 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
 
         return r;
     }
-
-    private Response getAreaIds(final Request request) throws Exception {
+    private Response getArea(final Request request) throws Exception {
         List<Long> l = null;
         l = qnAService.getAreaIds(
                 (Token) request.getParameter(PARAM_USER_TOKEN)
@@ -181,9 +193,18 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
         r.setReturnObject(l);
 
         return r;
-
     }
+    private Response getQuestionIds(final Request request) throws Exception {
+        List<Long> l = null;
+        l = qnAService.getQuestionIds(
+                (Token) request.getParameter(PARAM_USER_TOKEN),
+                (long) request.getParameter(PARAM_AREA_ID)
+        );
+        Response r = new Response(request);
+        r.setReturnObject(l);
 
+        return r;
+    }
     private Response getQuestion(final Request request) throws Exception {
         Question q = null;
         q = qnAService.getQuestion(
@@ -196,34 +217,7 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
 
         return r;
     }
-
-    private Response getQuestionIds(final Request request) throws Exception {
-        List<Long> l = null;
-        l = qnAService.getQuestionIds(
-                (Token) request.getParameter(PARAM_USER_TOKEN),
-                (long) request.getParameter(PARAM_AREA_ID)
-        );
-        Response r = new Response(request);
-        r.setReturnObject(l);
-
-        return r;
-    }
-
-    private Response getAnswere(final Request request) throws Exception {
-        Answer ans = null;
-        ans = qnAService.getAnswer(
-                (Token) request.getParameter(PARAM_USER_TOKEN),
-                (long) request.getParameter(PARAM_AREA_ID),
-                (long) request.getParameter(PARAM_QUESTION_ID),
-                (long) request.getParameter(PARAM_ANSWERE_ID)
-        );
-        Response r = new Response(request);
-        r.setReturnObject(ans);
-
-        return r;
-    }
-
-    private Response getAnswereIds(final Request request) throws Exception {
+    private Response getAnswerIds(final Request request) throws Exception {
         List<Long> l = null;
         l = qnAService.getAnswerIds(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
@@ -235,7 +229,19 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
 
         return r;
     }
+    private Response getAnswer(final Request request) throws Exception {
+        Answer ans = null;
+        ans = qnAService.getAnswer(
+                (Token) request.getParameter(PARAM_USER_TOKEN),
+                (long) request.getParameter(PARAM_AREA_ID),
+                (long) request.getParameter(PARAM_QUESTION_ID),
+                (long) request.getParameter(PARAM_ANSWER_ID)
+        );
+        Response r = new Response(request);
+        r.setReturnObject(ans);
 
+        return r;
+    }
     private Response updateArea(final Request request) throws Exception {
         qnAService.updateArea(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
@@ -243,7 +249,6 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
         );
         return new Response(request);
     }
-
     private Response updateQuestion(final Request request) throws Exception {
         qnAService.updateQuestion(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
@@ -252,13 +257,12 @@ public class fdkhServiceServeOneClient extends AbstractServeOneClient {
         );
         return new Response(request);
     }
-
-    private Response updateAnswere(final Request request) throws Exception {
+    private Response updateAnswer(final Request request) throws Exception {
         qnAService.updateAnswer(
                 (Token) request.getParameter(PARAM_USER_TOKEN),
                 (long) request.getParameter(PARAM_AREA_ID),
                 (long) request.getParameter(PARAM_QUESTION_ID),
-                (Answer) request.getParameter(PARAM_ANSWERE)
+                (Answer) request.getParameter(PARAM_ANSWER)
         );
         return new Response(request);
     }

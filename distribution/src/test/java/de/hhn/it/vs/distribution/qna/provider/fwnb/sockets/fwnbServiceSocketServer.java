@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.fwnb.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.fwnb.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;

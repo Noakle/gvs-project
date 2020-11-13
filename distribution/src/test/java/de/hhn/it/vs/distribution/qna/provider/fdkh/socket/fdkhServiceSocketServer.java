@@ -1,4 +1,4 @@
-package de.hhn.it.vs.distribution.rzdf.provider.sockets;
+package de.hhn.it.vs.distribution.qna.provider.fdkh.socket;
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
@@ -7,12 +7,9 @@ import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient;
 import de.hhn.it.vs.distribution.sockets.SimpleDelegatingServer;
 
-/**
- * Created by David Flaig and Rick Zolnierek on 11.11.2020
- */
-public class rzdfServiceSocketServer {
+public class fdkhServiceSocketServer {
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(rzdfServiceSocketServer.class);
+            org.slf4j.LoggerFactory.getLogger(fdkhServiceSocketServer.class);
 
     public static void main(String[] args) throws Exception {
         BDUserManagementService userManagementService = new WnckUserManagementService();
@@ -22,7 +19,7 @@ public class rzdfServiceSocketServer {
                 userManagementService, UserManagementServiceServeOneClient.class);
 
         SimpleDelegatingServer qnaDelegatingServer = new SimpleDelegatingServer(1098,
-                qnAService, rzdfServiceServeOneClient.class);
+                qnAService, fdkhServiceServeOneClient.class);
 
         userManagementDelegatingServer.foreverAcceptAndDelegate();
         qnaDelegatingServer.foreverAcceptAndDelegate();

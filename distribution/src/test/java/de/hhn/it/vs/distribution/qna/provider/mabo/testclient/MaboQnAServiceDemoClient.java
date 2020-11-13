@@ -10,8 +10,8 @@ import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.testclient.WnckUserManagementDemoClient;
-import de.hhn.it.vs.distribution.fdkh.provider.fdkhDemoClient;
-import de.hhn.it.vs.distribution.fdkh.provider.socket.BDfdkhServiceViaSockets;
+import de.hhn.it.vs.distribution.qna.provider.fdkh.fdkhDemoClient;
+import de.hhn.it.vs.distribution.qna.provider.fdkh.socket.BDfdkhServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
