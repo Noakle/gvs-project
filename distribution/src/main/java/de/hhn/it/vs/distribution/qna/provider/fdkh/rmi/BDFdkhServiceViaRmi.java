@@ -58,56 +58,122 @@ public class BDFdkhServiceViaRmi implements BDQnAService {
 
     @Override
     public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return 0;
+        checkRemoteReference();
+        try {
+            return service.createQuestion(userToken, areaId, question);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return 0;
+        checkRemoteReference();
+        try {
+            return service.createAnswer(userToken, areaId, questionId, answer);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getAreaIds(userToken);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getArea(userToken, areaId);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public List<Long> getQuestionIds(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getQuestionIds(userToken, areaId);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public Question getQuestion(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getQuestion(userToken, areaId, questionId);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getAnswerIds(userToken, areaId, questionId);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        checkRemoteReference();
+        try {
+            return service.getAnswer(userToken, areaId, questionId, answerId);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public void updateArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        checkRemoteReference();
+        try {
+            service.updateArea(userToken, area);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public void updateQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        checkRemoteReference();
+        try {
+            service.updateQuestion(userToken, areaId, question);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 
     @Override
     public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        checkRemoteReference();
+        try {
+            service.updateAnswer(userToken, areaId, questionId, answer);
+        } catch (RemoteException e) {
+            logger.warn("Problems with RMI: {}", e.getMessage());
+            throw new ServiceNotAvailableException(e);
+        }
     }
 }
