@@ -33,51 +33,51 @@ public class RmiFdkhServiceImpl implements RmiFdkhService {
 
     @Override
     public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return 0;
+        return qnAService.createAnswer(userToken, areaId, questionId, answer);
     }
 
     @Override
     public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getAreaIds(userToken);
     }
 
     @Override
     public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getArea(userToken, areaId);
     }
 
     @Override
     public List<Long> getQuestionIds(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getQuestionIds(userToken, areaId);
     }
 
     @Override
     public Question getQuestion(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getQuestion(userToken, areaId, questionId);
     }
 
     @Override
     public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getAnswerIds(userToken, areaId, questionId);
     }
 
     @Override
     public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-        return null;
+        return qnAService.getAnswer(userToken, areaId, questionId, answerId);
     }
 
     @Override
     public void updateArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        qnAService.updateArea(userToken, area);
     }
 
     @Override
     public void updateQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        qnAService.updateQuestion(userToken, areaId, question);
     }
 
     @Override
     public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
-
+        qnAService.updateAnswer(userToken, areaId, questionId, answer);
     }
 }
