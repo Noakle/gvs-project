@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface RmiFdkhService extends Remote {
 
-    public static final String REGISTRY_KEY = "cc.qna";
+    public static final String REGISTRY_KEY = "qna.fdkh";
 
     public long createArea(Token userToken, Area area)
             throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
