@@ -4,6 +4,8 @@ import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.RmiUserManagementService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.RmiUserManagementServiceImpl;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,15 +22,15 @@ public class FdkhRmiQnaServiceTestServer {
         BDUserManagementService userManagementService = new WnckUserManagementService();
         BDQnAService service = new WnckQnAService(userManagementService);
 
- /*       RmiUserManagementServiceImpl rmiUserManagementWrapper = new RmiUserManagementServiceImpl(userManagementService);
+        RmiUserManagementServiceImpl rmiUserManagementWrapper = new RmiUserManagementServiceImpl(userManagementService);
         RmiUserManagementService proxyUserManagment = (RmiUserManagementService) UnicastRemoteObject.exportObject(rmiUserManagementWrapper, 0);
-        registry.rebind(RmiUserManagementService.REGISTRY_KEY, proxyUserManagment);*/
+        registry.rebind(RmiUserManagementService.REGISTRY_KEY, proxyUserManagment);
 
         RmiFdkhServiceImpl rmiQnaWrapper = new RmiFdkhServiceImpl(service);
         RmiFdkhService proxyQna = (RmiFdkhService) UnicastRemoteObject.exportObject(rmiQnaWrapper, 0);
         registry.rebind(RmiFdkhService.REGISTRY_KEY, proxyQna);
 
-//       logger.info("UserManagementService ready on proxy: " + proxyUserManagment);
+        logger.info("UserManagementService ready on proxy: " + proxyUserManagment);
         logger.info("QnaService ready on proxy: " + proxyQna);
         logger.info("waiting for call...");
     }

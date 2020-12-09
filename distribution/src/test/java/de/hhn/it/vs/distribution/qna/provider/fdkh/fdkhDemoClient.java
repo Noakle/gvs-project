@@ -8,7 +8,9 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
+import de.hhn.it.vs.distribution.qna.provider.fdkh.rmi.BDFdkhServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.fdkh.socket.BDfdkhServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
@@ -35,6 +37,9 @@ public class fdkhDemoClient {
                 qnAService = new BDfdkhServiceViaSockets("localhost", 1098);
                 break;
             case RMI:
+                userManagementService = new BDUserManagementServiceViaRmi("localhost", 1099);
+                qnAService = new BDFdkhServiceViaRmi("localhost", 1099);
+                break;
             case REST:
             default:
                 throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
@@ -45,7 +50,7 @@ public class fdkhDemoClient {
     public static void main(String[] args) throws IllegalParameterException,
             ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
 
-        fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.SOCKET);
+        fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.RMI);
         qnAServiceDemo.runDemo();
     }
 
