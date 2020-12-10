@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface RmiQnAService extends Remote {
 
-  public static final String REGISTRY_KEY = "RMI.NKAZ";
+  public static final String REGISTRY_KEY = "qna.nkaz";
 
   public long createArea(Token userToken, Area area)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
