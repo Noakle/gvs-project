@@ -8,10 +8,12 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
-import de.hhn.it.vs.distribution.qna.provider.fdkh.rmi.BDFdkhServiceViaRmi;
-import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.BDUserManagementServiceViaRmi;
+import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.BDQnAServiceViaRmi;
+import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.RmiQnAService;
+import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.RmiQnAServiceImpl;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
@@ -21,6 +23,7 @@ public class NKAZQnADemoClient {
 
   private BDQnAService qnAService;
   private BDUserManagementService userManagementService;
+
 
   public NKAZQnADemoClient(TestMode testMode) {
     instantiateBDClient(testMode);
@@ -37,7 +40,8 @@ public class NKAZQnADemoClient {
         break;
       case RMI:
         userManagementService = new BDUserManagementServiceViaRmi("localhost", 1099);
-        qnAService = new BDFdkhServiceViaRmi("localhost", 1099);
+        qnAService = new BDQnAServiceViaRmi("localhost",1099);
+        break;
       case REST:
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
@@ -45,7 +49,7 @@ public class NKAZQnADemoClient {
   }
 
   public static void main(String[] args) throws Exception {
-    NKAZQnADemoClient client = new NKAZQnADemoClient(TestMode.SOCKET);
+    NKAZQnADemoClient client = new NKAZQnADemoClient(TestMode.RMI);
     client.runDemo();
   }
 
