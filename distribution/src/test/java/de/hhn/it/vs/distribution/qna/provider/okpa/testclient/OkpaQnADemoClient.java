@@ -8,9 +8,11 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.testclient.WnckUserManagementDemoClient;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
+import de.hhn.it.vs.distribution.qna.provider.okpa.rmi.BDQnAServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.okpa.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
@@ -32,11 +34,17 @@ public class OkpaQnADemoClient {
         qnAService = new WnckQnAService(userManagementService);
         break;
       case SOCKET:
-        userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+        userManagementService =
+            new BDUserManagementServiceViaSockets("localhost", 1099);
         qnAService = new BDQnAServiceViaSockets("localhost", 1100);
         break;
       case RMI:
+        userManagementService =
+            new BDUserManagementServiceViaRmi("localhost", 1099);
+        qnAService = new BDQnAServiceViaRmi("localhost", 1099);
+        break;
       case REST:
+        break;
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
     }
@@ -51,7 +59,7 @@ public class OkpaQnADemoClient {
   public static void main(String[] args)
       throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
                  UserNameAlreadyAssignedException {
-    OkpaQnADemoClient client = new OkpaQnADemoClient(TestMode.SOCKET);
+    OkpaQnADemoClient client = new OkpaQnADemoClient(TestMode.RMI);
     client.runDemo();
   }
 }
