@@ -1,6 +1,5 @@
 package de.hhn.it.vs.distribution.qna.provider.nkaz.rmi;
 
-
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
@@ -9,21 +8,20 @@ import de.hhn.it.vs.common.qna.model.Answer;
 import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
 
-
 public class BDQnAServiceViaRmi implements BDQnAService {
 
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(BDQnAServiceViaRmi.class);
 
-
-  private String hostname;
-  private int portNumber;
+  private final String hostname;
+  private final int portNumber;
   private RmiQnAService service;
 
   public BDQnAServiceViaRmi(final String hostname, final int portNumber) {
@@ -31,15 +29,14 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     this.portNumber = portNumber;
   }
 
-
   private void connectToService() throws ServiceNotAvailableException {
     logger.debug("get access to registry on host {} with port {}", hostname, portNumber);
     try {
       Registry registry = LocateRegistry.getRegistry(hostname, portNumber);
       service = (RmiQnAService) registry.lookup(RmiQnAService.REGISTRY_KEY);
     } catch (RemoteException | NotBoundException ex) {
-      String errorMessage = "cannot connect to service on host / port "
-          + hostname + " / " + portNumber;
+      String errorMessage =
+          "cannot connect to service on host / port " + hostname + " / " + portNumber;
       throw new ServiceNotAvailableException(errorMessage, ex);
     }
   }
@@ -198,7 +195,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
     try {
       checkRemoteReference();
-      service.updateAnswer(userToken, areaId,questionId,answer);
+      service.updateAnswer(userToken, areaId, questionId, answer);
     } catch (RemoteException e) {
       e.printStackTrace();
       logger.warn("Problems with RMI: " + e.getMessage());

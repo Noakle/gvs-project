@@ -12,8 +12,6 @@ import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserMan
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.BDQnAServiceViaRmi;
-import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.RmiQnAService;
-import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.RmiQnAServiceImpl;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
@@ -23,7 +21,6 @@ public class NKAZQnADemoClient {
 
   private BDQnAService qnAService;
   private BDUserManagementService userManagementService;
-
 
   public NKAZQnADemoClient(TestMode testMode) {
     instantiateBDClient(testMode);
@@ -40,7 +37,7 @@ public class NKAZQnADemoClient {
         break;
       case RMI:
         userManagementService = new BDUserManagementServiceViaRmi("localhost", 1099);
-        qnAService = new BDQnAServiceViaRmi("localhost",1099);
+        qnAService = new BDQnAServiceViaRmi("localhost", 1099);
         break;
       case REST:
       default:
@@ -53,7 +50,9 @@ public class NKAZQnADemoClient {
     client.runDemo();
   }
 
-  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+  private void runDemo()
+      throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
+          UserNameAlreadyAssignedException {
     QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
     qnAServiceDemoClient.runDemo(userManagementService, qnAService);
   }
