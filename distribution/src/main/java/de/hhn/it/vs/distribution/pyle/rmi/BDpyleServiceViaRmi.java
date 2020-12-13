@@ -61,27 +61,77 @@ public class BDpyleServiceViaRmi implements RmipyleService {
 
     @Override
     public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return 0;
+        long result = 0;
+
+        try {
+
+            result = rmipyleService.createQuestion(userToken, areaId, question);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
     public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return 0;
+        long result = 0;
+
+        try {
+
+            result = rmipyleService.createAnswer(userToken, areaId, questionId, answer);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
     public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return null;
+       List<Long> result = null;
+
+        try {
+
+            result = rmipyleService.getAreaIds(userToken);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
     public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return null;
+        Area result = new Area();
+
+        try {
+
+            result = rmipyleService.getArea(userToken, areaId);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
     public List<Long> getQuestionIds(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return null;
+        List<Long> result = null;
+
+        try {
+
+            result = rmipyleService.getQuestionIds(userToken, areaId);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
@@ -91,7 +141,17 @@ public class BDpyleServiceViaRmi implements RmipyleService {
 
     @Override
     public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
-        return null;
+        List<Long> result = null;
+
+        try {
+
+            result = rmipyleService.getAnswerIds(userToken, areaId, questionId);
+
+        }catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+        return  result;
     }
 
     @Override
