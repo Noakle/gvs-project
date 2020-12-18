@@ -1,13 +1,15 @@
 package de.hhn.it.vs.common.exceptions;
 
 
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Thrown to indicate that the given token cannot be mapped on an entity of the assumed kind.
  * <p>
  * Created by wnck on 10/10/16.
  */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidTokenException extends Exception {
   /**
    * Constructs a new exception with {@code null} as its detail message.

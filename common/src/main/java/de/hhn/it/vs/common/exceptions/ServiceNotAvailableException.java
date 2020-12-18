@@ -1,7 +1,11 @@
 package de.hhn.it.vs.common.exceptions;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.security.PrivilegedActionException;
 
+@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 public class ServiceNotAvailableException extends Exception {
   /**
    * Constructs a new exception with {@code null} as its detail message.

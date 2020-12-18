@@ -1,5 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.4.RELEASE")
+    }
+}
+
 
 allprojects {
 
@@ -8,6 +17,8 @@ allprojects {
   }
 
     apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
 
     repositories {
         jcenter()
@@ -22,9 +33,10 @@ allprojects {
 
     dependencies {
         compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
-        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+//        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
 
         test {
             useJUnitPlatform()
@@ -32,6 +44,9 @@ allprojects {
 
     }
 
-
-
+    dependencyManagement {
+        imports {
+            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        }
+    }
 }
