@@ -8,6 +8,7 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rest.BDUserManagementServiceViaRest;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
@@ -40,6 +41,7 @@ public class NKAZQnADemoClient {
         qnAService = new BDQnAServiceViaRmi("localhost", 1099);
         break;
       case REST:
+        userManagementService = new BDUserManagementServiceViaRest("http://localhost:8080/usermanagementservice/");
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
     }
