@@ -33,21 +33,21 @@ public class QnAServiceRestController {
     return qnAService.createArea(userToken, area);
   }
 
-  @RequestMapping(value = "questions", method = RequestMethod.POST)
+  @RequestMapping(value = "areas/{areaId}/questions", method = RequestMethod.POST)
   public long createQuestion(
       @RequestHeader("Token") String userTokenString,
-      @RequestBody long areaId,
+      @PathVariable long areaId,
       @RequestBody Question question)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
     Token userToken = new Token(userTokenString);
     return qnAService.createQuestion(userToken, areaId, question);
   }
 
-  @RequestMapping(value = "answers", method = RequestMethod.POST)
+  @RequestMapping(value = "areas/{areaId}/questions/{questionId}/answers", method = RequestMethod.POST)
   public long createAnswer(
       @RequestHeader("Token") String userTokenString,
-      @RequestBody long areaId,
-      @RequestBody long questionId,
+      @PathVariable long areaId,
+      @PathVariable long questionId,
       @RequestBody Answer answer)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
     Token userToken = new Token(userTokenString);
