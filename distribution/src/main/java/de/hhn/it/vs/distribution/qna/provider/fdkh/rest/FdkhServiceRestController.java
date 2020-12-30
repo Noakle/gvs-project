@@ -52,7 +52,7 @@ public class FdkhServiceRestController {
         return qnAService.createAnswer(userToken, areaID, questionID, answer);
     }
 
-    @RequestMapping(value = "/area", method = RequestMethod.GET)
+    @RequestMapping(value = "/areas", method = RequestMethod.GET)
     public @ResponseBody
     List<Long> getAreaIds(@RequestHeader("Token") String userTokenString)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
@@ -106,7 +106,7 @@ public class FdkhServiceRestController {
         return qnAService.getAnswer(userToken, areaID, questionID, answerID);
     }
 
-    @RequestMapping(value = "/area", method = RequestMethod.PUT)
+    @RequestMapping(value = "/area/status", method = RequestMethod.PUT)
     public @ResponseBody
     void updateArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
@@ -115,7 +115,7 @@ public class FdkhServiceRestController {
         qnAService.updateArea(userToken, area);
     }
 
-    @RequestMapping(value = "/question/{areaID}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/question/{areaID}/status", method = RequestMethod.PUT)
     public @ResponseBody
     void updateQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @RequestBody Question question)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
@@ -124,7 +124,7 @@ public class FdkhServiceRestController {
         qnAService.updateQuestion(userToken, areaID, question);
     }
 
-    @RequestMapping(value = "/answer/{areaID}/{questionID}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/answer/{areaID}/{questionID}/status", method = RequestMethod.PUT)
     public @ResponseBody
     void updateAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @PathVariable long questionID, @RequestBody Answer answer)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
