@@ -44,7 +44,7 @@ public class fdkhDemoClient {
                 break;
             case REST:
                 userManagementService = new BDUserManagementServiceViaRest("http://localhost:8080/usermanagementservice/");
-                //qnAService = new BDFdkhServiceViaRest("http://localhost:8080/qnaservice/");
+                qnAService = new BDFdkhServiceViaRest("http://localhost:8080/qnaservice/");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);

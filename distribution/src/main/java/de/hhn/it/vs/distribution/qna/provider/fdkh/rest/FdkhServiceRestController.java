@@ -7,11 +7,14 @@ import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.model.*;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.qna.provider.fdkh.rmi.BDFdkhServiceViaRmi;
+import de.hhn.it.vs.distribution.rest.RestCCConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Import(RestCCConfiguration.class)
 @RestController
 @RequestMapping("qnaservice")
 public class FdkhServiceRestController {
@@ -26,7 +29,7 @@ public class FdkhServiceRestController {
     }
 
     @RequestMapping(value = "area", method = RequestMethod.POST)
-    public @ResponseBody
+    public
     long createArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area )
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("createArea");
@@ -34,26 +37,29 @@ public class FdkhServiceRestController {
         return qnAService.createArea(userToken, area);
     }
 
-    @RequestMapping(value = "question/{areaID}", method = RequestMethod.POST)
-    public @ResponseBody
-    long createQuestion(@RequestHeader("Token") String userTokenString,@PathVariable long areaID, @RequestBody Question question)
+    @RequestMapping(value = "question/{areaId}", method = RequestMethod.POST)
+    @ResponseBody
+    public
+    long createQuestion(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @RequestBody Question question)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("createQuestion");
         Token userToken = new Token(userTokenString);
-        return qnAService.createQuestion(userToken, areaID, question);
+        return qnAService.createQuestion(userToken, areaId, question);
     }
 
-    @RequestMapping(value = "answer/{areaID}/{questionID}", method = RequestMethod.POST)
-    public @ResponseBody
-    long createAnswer(@RequestHeader("Token") String userTokenString,@PathVariable long areaID, @PathVariable long questionID, @RequestBody Answer answer)
+    @RequestMapping(value = "answer/{areaId}/{questionId}", method = RequestMethod.POST)
+    @ResponseBody
+    public
+    long createAnswer(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("createAnswere");
         Token userToken = new Token(userTokenString);
-        return qnAService.createAnswer(userToken, areaID, questionID, answer);
+        return qnAService.createAnswer(userToken, areaId, questionId, answer);
     }
 
     @RequestMapping(value = "areas", method = RequestMethod.GET)
-    public @ResponseBody
+    @ResponseBody
+    public
     List<Long> getAreaIds(@RequestHeader("Token") String userTokenString)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getAreaIds");
@@ -61,53 +67,59 @@ public class FdkhServiceRestController {
         return qnAService.getAreaIds(userToken);
     }
 
-    @RequestMapping(value = "area/{areaID}", method = RequestMethod.GET)
-    public @ResponseBody
-    Area getArea(@RequestHeader("Token") String userTokenString, @PathVariable long areaID)
+    @RequestMapping(value = "area/{areaId}", method = RequestMethod.GET)
+    @ResponseBody
+    public
+    Area getArea(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getArea");
         Token userToken = new Token(userTokenString);
-        return qnAService.getArea(userToken, areaID);
+        return qnAService.getArea(userToken, areaId);
     }
 
-    @RequestMapping(value = "question/{areaID}", method = RequestMethod.GET)
-    public @ResponseBody
-    List<Long> getQuestionIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaID)
+    @RequestMapping(value = "question/{areaId}", method = RequestMethod.GET)
+    @ResponseBody
+    public
+    List<Long> getQuestionIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getQuestionIds");
         Token userToken = new Token(userTokenString);
-        return qnAService.getQuestionIds(userToken, areaID);
+        return qnAService.getQuestionIds(userToken, areaId);
     }
 
-    @RequestMapping(value = "question/{areaID}/{questionID}", method = RequestMethod.GET)
-    public @ResponseBody
-    Question getQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @PathVariable long questionID)
+    @RequestMapping(value = "question/{areaId}/{questionId}", method = RequestMethod.GET)
+    @ResponseBody
+    public
+    Question getQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getQuestion");
         Token userToken = new Token(userTokenString);
-        return qnAService.getQuestion(userToken, areaID, questionID);
+        return qnAService.getQuestion(userToken, areaId, questionId);
     }
 
-    @RequestMapping(value = "answer/{areaID}/{questionID}", method = RequestMethod.GET)
-    public @ResponseBody
-    List<Long> getAnswerIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @PathVariable long questionID)
+    @RequestMapping(value = "answer/{areaId}/{questionId}", method = RequestMethod.GET)
+    @ResponseBody
+    public
+    List<Long> getAnswerIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getAnswerIds");
         Token userToken = new Token(userTokenString);
-        return qnAService.getAnswerIds(userToken, areaID, questionID);
+        return qnAService.getAnswerIds(userToken, areaId, questionId);
     }
 
-    @RequestMapping(value = "answer/{areaID}/{questionID}/{answerID}", method = RequestMethod.GET)
-    public @ResponseBody
-    Answer getAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @PathVariable long questionID, @PathVariable long answerID)
+    @RequestMapping(value = "answer/{areaId}/{questionId}/{answerId}", method = RequestMethod.GET)
+    @ResponseBody
+    public
+    Answer getAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @PathVariable long answerId)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("getAnswer");
         Token userToken = new Token(userTokenString);
-        return qnAService.getAnswer(userToken, areaID, questionID, answerID);
+        return qnAService.getAnswer(userToken, areaId, questionId, answerId);
     }
 
     @RequestMapping(value = "area/status", method = RequestMethod.PUT)
-    public @ResponseBody
+    @ResponseBody
+    public
     void updateArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("updateArea");
@@ -115,21 +127,23 @@ public class FdkhServiceRestController {
         qnAService.updateArea(userToken, area);
     }
 
-    @RequestMapping(value = "question/{areaID}/status", method = RequestMethod.PUT)
-    public @ResponseBody
-    void updateQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @RequestBody Question question)
+    @RequestMapping(value = "question/{areaId}/status", method = RequestMethod.PUT)
+    @ResponseBody
+    public
+    void updateQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @RequestBody Question question)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("updateQuestion");
         Token userToken = new Token(userTokenString);
-        qnAService.updateQuestion(userToken, areaID, question);
+        qnAService.updateQuestion(userToken, areaId, question);
     }
 
-    @RequestMapping(value = "answer/{areaID}/{questionID}/status", method = RequestMethod.PUT)
-    public @ResponseBody
-    void updateAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaID, @PathVariable long questionID, @RequestBody Answer answer)
+    @RequestMapping(value = "answer/{areaId}/{questionId}/status", method = RequestMethod.PUT)
+    @ResponseBody
+    public
+    void updateAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
         logger.info("updateAnswer");
         Token userToken = new Token(userTokenString);
-        qnAService.updateAnswer(userToken, areaID, questionID, answer);
+        qnAService.updateAnswer(userToken, areaId, questionId, answer);
     }
 }

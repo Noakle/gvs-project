@@ -68,17 +68,13 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public long createArea(final Token userToken, final Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("createArea");
-        final String uri = "/area";
+        final String uri = "area";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Area>(area, headers);
-
-        ParameterizedTypeReference<Long> responsType = new ParameterizedTypeReference<Long>() {
-        };
+        HttpEntity<Area> requestEntry = new HttpEntity<>(area, headers);
 
         try {
-            long areaID = restTemplate.postForObject(baseURL + uri, requestEntry, long.class);
-            return areaID;
+            return restTemplate.postForObject(baseURL + uri, requestEntry, long.class);
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -88,18 +84,13 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public long createQuestion(final Token userToken, final long areaId, final Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("createQuestion");
-        final String uri = "question/{areaID}";
+        final String uri = "question/{areaId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Question>(question, headers);
+        HttpEntity<Question> requestEntry = new HttpEntity<>(question, headers);
 
-        ParameterizedTypeReference<Long> responsType = new ParameterizedTypeReference<Long>() {
-        };
         try {
-            ResponseEntity<Long> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.POST, requestEntry, responsType);
-
-            long questionID = responseEntity.getBody();
-            return questionID;
+            return restTemplate.postForObject(baseURL + uri, requestEntry, long.class, areaId);
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -109,18 +100,13 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public long createAnswer(final Token userToken, final long areaId, final long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("createAnswer");
-        final String uri = "answer/{areaID}/{questionID}";
+        final String uri = "answer/{areaId}/{questionId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Answer>(answer, headers);
+        HttpEntity<Answer> requestEntry = new HttpEntity<>(answer, headers);
 
-        ParameterizedTypeReference<Long> responsType = new ParameterizedTypeReference<Long>() {
-        };
         try {
-            ResponseEntity<Long> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.POST, requestEntry, responsType);
-
-            long answerID = responseEntity.getBody();
-            return answerID;
+            return restTemplate.postForObject(baseURL + uri, requestEntry, long.class, areaId, questionId);
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -133,15 +119,14 @@ public class BDFdkhServiceViaRest implements BDQnAService {
         final String uri = "areas";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<List<Long>> responsType = new ParameterizedTypeReference<List<Long>>() {
         };
         try {
             ResponseEntity<List<Long>> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
 
-            List<Long> allAreas = responseEntity.getBody();
-            return allAreas;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -151,18 +136,17 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Area getArea(final Token userToken, final long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getArea");
-        final String uri = "area/{areaID}";
+        final String uri = "area/{areaId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<Area> responsType = new ParameterizedTypeReference<Area>() {
         };
         try {
-            ResponseEntity<Area> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
+            ResponseEntity<Area> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType, areaId);
 
-            Area area = responseEntity.getBody();
-            return area;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -172,18 +156,17 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public List<Long> getQuestionIds(final Token userToken, final long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getQuestionIds");
-        final String uri = "question/{areaID}";
+        final String uri = "question/{areaId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<List<Long>> responsType = new ParameterizedTypeReference<List<Long>>() {
         };
         try {
-            ResponseEntity<List<Long>> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
+            ResponseEntity<List<Long>> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType, areaId);
 
-            List<Long> allQuestions = responseEntity.getBody();
-            return allQuestions;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -193,18 +176,17 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Question getQuestion(final Token userToken, final long areaId, final long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getQuestion");
-        final String uri = "question/{areaID}/{questionID}";
+        final String uri = "question/{areaId}/{questionId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<Question> responsType = new ParameterizedTypeReference<Question>() {
         };
         try {
-            ResponseEntity<Question> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
+            ResponseEntity<Question> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType, areaId, questionId);
 
-            Question question = responseEntity.getBody();
-            return question;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -214,18 +196,17 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public List<Long> getAnswerIds(final Token userToken, final long areaId, final long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getAnswerIds");
-        final String uri = "answer/{areaID}/{questionID}";
+        final String uri = "answer/{areaId}/{questionId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<List<Long>> responsType = new ParameterizedTypeReference<List<Long>>() {
         };
         try {
-            ResponseEntity<List<Long>> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
+            ResponseEntity<List<Long>> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType, areaId, questionId);
 
-            List<Long> allAnswers = responseEntity.getBody();
-            return allAnswers;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -235,18 +216,17 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Answer getAnswer(final Token userToken, final long areaId, final long questionId, final long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getAnswer");
-        final String uri = "answer/{areaID}/{questionID}/{answerID}";
+        final String uri = "answer/{areaID}/{questionId}/{answerId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Void>(null, headers);
+        HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
 
         ParameterizedTypeReference<Answer> responsType = new ParameterizedTypeReference<Answer>() {
         };
         try {
-            ResponseEntity<Answer> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType);
+            ResponseEntity<Answer> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.GET, requestEntry, responsType, areaId, questionId, answerId);
 
-            Answer answer = responseEntity.getBody();
-            return answer;
+            return responseEntity.getBody();
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -259,7 +239,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
         final String uri = "area/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Area>(area, headers);
+        HttpEntity<Area> requestEntry = new HttpEntity<>(area, headers);
 
         ParameterizedTypeReference<Void> responsType = new ParameterizedTypeReference<Void>() {
         };
@@ -274,15 +254,15 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public void updateQuestion(final Token userToken, final long areaId, final Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("updateQuestion");
-        final String uri = "question/{areaID}/status";
+        final String uri = "question/{areaId}/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Question>(question, headers);
+        HttpEntity<Question> requestEntry = new HttpEntity<>(question, headers);
 
         ParameterizedTypeReference<Void> responsType = new ParameterizedTypeReference<Void>() {
         };
         try {
-            ResponseEntity<Void> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.PUT, requestEntry, responsType);
+            ResponseEntity<Void> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.PUT, requestEntry, responsType, areaId);
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
@@ -292,15 +272,15 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public void updateAnswer(final Token userToken, final long areaId, final long questionId, final Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("updateAnswer");
-        final String uri = "answer/{areaID}/{questionID}/status";
+        final String uri = "answer/{areaId}/{questionId}/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
-        HttpEntity requestEntry = new HttpEntity<Answer>(answer, headers);
+        HttpEntity<Answer> requestEntry = new HttpEntity<>(answer, headers);
 
         ParameterizedTypeReference<Void> responsType = new ParameterizedTypeReference<Void>() {
         };
         try {
-            ResponseEntity<Void> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.PUT, requestEntry, responsType);
+            ResponseEntity<Void> responseEntity = restTemplate.exchange(baseURL + uri, HttpMethod.PUT, requestEntry, responsType, areaId, questionId);
         } catch (HttpClientErrorException e) {
             rethrowException(e);
         }
