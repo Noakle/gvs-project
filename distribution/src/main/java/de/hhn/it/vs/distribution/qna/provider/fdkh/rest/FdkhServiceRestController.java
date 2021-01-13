@@ -37,7 +37,7 @@ public class FdkhServiceRestController {
         return qnAService.createArea(userToken, area);
     }
 
-    @RequestMapping(value = "question/{areaId}", method = RequestMethod.POST)
+    @RequestMapping(value = "areas/{areaId}/question", method = RequestMethod.POST)
     @ResponseBody
     public
     long createQuestion(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @RequestBody Question question)
@@ -47,12 +47,12 @@ public class FdkhServiceRestController {
         return qnAService.createQuestion(userToken, areaId, question);
     }
 
-    @RequestMapping(value = "answer/{areaId}/{questionId}", method = RequestMethod.POST)
+    @RequestMapping(value = "areas/{areaId}/questions/{questionId}/answer", method = RequestMethod.POST)
     @ResponseBody
     public
     long createAnswer(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)
             throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
-        logger.info("createAnswere");
+        logger.info("createAnswer");
         Token userToken = new Token(userTokenString);
         return qnAService.createAnswer(userToken, areaId, questionId, answer);
     }
@@ -67,7 +67,7 @@ public class FdkhServiceRestController {
         return qnAService.getAreaIds(userToken);
     }
 
-    @RequestMapping(value = "area/{areaId}", method = RequestMethod.GET)
+    @RequestMapping(value = "areas/{areaId}", method = RequestMethod.GET)
     @ResponseBody
     public
     Area getArea(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
@@ -77,7 +77,7 @@ public class FdkhServiceRestController {
         return qnAService.getArea(userToken, areaId);
     }
 
-    @RequestMapping(value = "question/{areaId}", method = RequestMethod.GET)
+    @RequestMapping(value = "areas/{areaId}/questions", method = RequestMethod.GET)
     @ResponseBody
     public
     List<Long> getQuestionIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
@@ -87,7 +87,7 @@ public class FdkhServiceRestController {
         return qnAService.getQuestionIds(userToken, areaId);
     }
 
-    @RequestMapping(value = "question/{areaId}/{questionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "areas/{areaId}/questions/{questionId}", method = RequestMethod.GET)
     @ResponseBody
     public
     Question getQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
@@ -97,7 +97,7 @@ public class FdkhServiceRestController {
         return qnAService.getQuestion(userToken, areaId, questionId);
     }
 
-    @RequestMapping(value = "answer/{areaId}/{questionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "areas/{areaId}/questions/{questionId}/answers", method = RequestMethod.GET)
     @ResponseBody
     public
     List<Long> getAnswerIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
@@ -107,7 +107,7 @@ public class FdkhServiceRestController {
         return qnAService.getAnswerIds(userToken, areaId, questionId);
     }
 
-    @RequestMapping(value = "answer/{areaId}/{questionId}/{answerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "areas/{areaId}/questions/{questionId}/answers/{answerId}", method = RequestMethod.GET)
     @ResponseBody
     public
     Answer getAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @PathVariable long answerId)
@@ -117,7 +117,7 @@ public class FdkhServiceRestController {
         return qnAService.getAnswer(userToken, areaId, questionId, answerId);
     }
 
-    @RequestMapping(value = "area/status", method = RequestMethod.PUT)
+    @RequestMapping(value = "areas/status", method = RequestMethod.PUT)
     @ResponseBody
     public
     void updateArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area)
@@ -127,7 +127,7 @@ public class FdkhServiceRestController {
         qnAService.updateArea(userToken, area);
     }
 
-    @RequestMapping(value = "question/{areaId}/status", method = RequestMethod.PUT)
+    @RequestMapping(value = "areas/{areaId}/questions/status", method = RequestMethod.PUT)
     @ResponseBody
     public
     void updateQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @RequestBody Question question)
@@ -137,7 +137,7 @@ public class FdkhServiceRestController {
         qnAService.updateQuestion(userToken, areaId, question);
     }
 
-    @RequestMapping(value = "answer/{areaId}/{questionId}/status", method = RequestMethod.PUT)
+    @RequestMapping(value = "areas/{areaId}/questions/{questionId}/answers/status", method = RequestMethod.PUT)
     @ResponseBody
     public
     void updateAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)

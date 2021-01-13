@@ -84,7 +84,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public long createQuestion(final Token userToken, final long areaId, final Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("createQuestion");
-        final String uri = "question/{areaId}";
+        final String uri = "areas/{areaId}/question";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Question> requestEntry = new HttpEntity<>(question, headers);
@@ -100,7 +100,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public long createAnswer(final Token userToken, final long areaId, final long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("createAnswer");
-        final String uri = "answer/{areaId}/{questionId}";
+        final String uri = "areas/{areaId}/questions/{questionId}/answer";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Answer> requestEntry = new HttpEntity<>(answer, headers);
@@ -136,7 +136,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Area getArea(final Token userToken, final long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getArea");
-        final String uri = "area/{areaId}";
+        final String uri = "areas/{areaId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
@@ -156,7 +156,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public List<Long> getQuestionIds(final Token userToken, final long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getQuestionIds");
-        final String uri = "question/{areaId}";
+        final String uri = "areas/{areaId}/questions";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
@@ -176,7 +176,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Question getQuestion(final Token userToken, final long areaId, final long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getQuestion");
-        final String uri = "question/{areaId}/{questionId}";
+        final String uri = "areas/{areaId}/questions/{questionId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
@@ -196,7 +196,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public List<Long> getAnswerIds(final Token userToken, final long areaId, final long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getAnswerIds");
-        final String uri = "answer/{areaId}/{questionId}";
+        final String uri = "areas/{areaId}/questions/{questionId}/answers";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
@@ -216,7 +216,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public Answer getAnswer(final Token userToken, final long areaId, final long questionId, final long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("getAnswer");
-        final String uri = "answer/{areaID}/{questionId}/{answerId}";
+        final String uri = "areas/{areaId}/questions/{questionId}/answers/{answerId}";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Void> requestEntry = new HttpEntity<>(null, headers);
@@ -236,7 +236,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public void updateArea(final Token userToken, final Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("updateArea");
-        final String uri = "area/status";
+        final String uri = "areas/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Area> requestEntry = new HttpEntity<>(area, headers);
@@ -254,7 +254,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public void updateQuestion(final Token userToken, final long areaId, final Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("updateQuestion");
-        final String uri = "question/{areaId}/status";
+        final String uri = "areas/{areaId}/questions/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Question> requestEntry = new HttpEntity<>(question, headers);
@@ -272,7 +272,7 @@ public class BDFdkhServiceViaRest implements BDQnAService {
     @Override
     public void updateAnswer(final Token userToken, final long areaId, final long questionId, final Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         logger.info("updateAnswer");
-        final String uri = "answer/{areaId}/{questionId}/status";
+        final String uri = "areas/{areaId}/questions/{questionId}/answers/status";
 
         HttpHeaders headers = getHttpHeadersWithUserToken(userToken);
         HttpEntity<Answer> requestEntry = new HttpEntity<>(answer, headers);
