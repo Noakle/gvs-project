@@ -169,7 +169,7 @@ public class WnckQnAService implements BDQnAService {
     logger.debug("updateQuestion:  with areaId {} and question {}", areaId, question);
     assertThatUserExists(userToken);
     validate(question);
-    getWnckAreaById(areaId).getWnckQuestionById(question.getId()).update(question);
+    //getWnckAreaById(areaId).getWnckQuestionById(question.getId()).update(question);
   }
 
   @Override
@@ -180,6 +180,6 @@ public class WnckQnAService implements BDQnAService {
             questionId, answer);
     assertThatUserExists(userToken);
     validate(answer);
-    getWnckAreaById(areaId).getWnckQuestionById(questionId).getWnckAnswerById(answer.getId()).update(answer);
+    //getWnckAreaById(areaId).getWnckQuestionById(questionId).getWnckAnswerById(answer.getId()).update(answer);
   }
 }
