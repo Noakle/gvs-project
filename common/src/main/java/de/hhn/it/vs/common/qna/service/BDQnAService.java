@@ -1,6 +1,7 @@
 package de.hhn.it.vs.common.qna.service;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -12,19 +13,19 @@ import java.util.List;
 
 public interface BDQnAService {
   public long createArea(Token userToken, Area area)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException;
 
   public long createQuestion(Token userToken, long areaId, Question question)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException;
 
   public long createAnswer(Token userToken, long areaId, long questionId, Answer answer)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException;
 
   public List<Long> getAreaIds(Token userToken)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException;
 
   public Area getArea(Token userToken, long areaId)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException;
 
   public List<Long> getQuestionIds(Token userToken, long areaId)
           throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException;

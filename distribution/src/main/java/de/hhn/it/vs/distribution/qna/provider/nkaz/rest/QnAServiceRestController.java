@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.nkaz.rest;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -28,7 +29,7 @@ public class QnAServiceRestController {
 
   @RequestMapping(value = "areas", method = RequestMethod.POST)
   public long createArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createArea(userToken, area);
   }
@@ -38,7 +39,7 @@ public class QnAServiceRestController {
       @RequestHeader("Token") String userTokenString,
       @PathVariable long areaId,
       @RequestBody Question question)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createQuestion(userToken, areaId, question);
   }
@@ -49,21 +50,21 @@ public class QnAServiceRestController {
       @PathVariable long areaId,
       @PathVariable long questionId,
       @RequestBody Answer answer)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createAnswer(userToken, areaId, questionId, answer);
   }
 
   @RequestMapping(value = "areas", method = RequestMethod.GET)
   public List<Long> getAreaIds(@RequestHeader("Token") String userTokenString)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.getAreaIds(userToken);
   }
 
   @RequestMapping(value = "areas/{areaId}", method = RequestMethod.GET)
   public Area getArea(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.getArea(userToken, areaId);
   }

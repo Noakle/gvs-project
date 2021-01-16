@@ -13,6 +13,8 @@ import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.qna.provider.truman.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class TrumanQnAServiceDemoClient {
 
     BDQnAService qnAService;
@@ -41,12 +43,12 @@ public class TrumanQnAServiceDemoClient {
 
 
     public static void main(String[] args) throws IllegalParameterException,
-            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
+            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException, RemoteException {
         TrumanQnAServiceDemoClient qnAServiceDemo = new TrumanQnAServiceDemoClient(TestMode.SOCKET);
         qnAServiceDemo.runDemo();
     }
 
-    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
         QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
         commonDemo.runDemo(userManagementService, qnAService);
     }

@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.wnck.rmi;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -52,7 +53,7 @@ public class WnckQnAServiceViaRmi implements BDQnAService {
     checkRemoteReference();
     try {
       return service.createArea(userToken, area);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       throw new ServiceNotAvailableException("Rmi problem: ", e);
     }
   }
@@ -62,7 +63,7 @@ public class WnckQnAServiceViaRmi implements BDQnAService {
     checkRemoteReference();
     try {
       return service.createQuestion(userToken, areaId, question);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       throw new ServiceNotAvailableException("Rmi problem: ", e);
     }
   }
@@ -74,7 +75,7 @@ public class WnckQnAServiceViaRmi implements BDQnAService {
     checkRemoteReference();
     try {
       return service.createAnswer(userToken, areaId, questionId, answer);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       throw new ServiceNotAvailableException("Rmi problem: ", e);
     }
   }
@@ -85,7 +86,7 @@ public class WnckQnAServiceViaRmi implements BDQnAService {
     checkRemoteReference();
     try {
       return service.getAreaIds(userToken);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       throw new ServiceNotAvailableException("Rmi problem: ", e);
     }
   }
@@ -95,7 +96,7 @@ public class WnckQnAServiceViaRmi implements BDQnAService {
     checkRemoteReference();
     try {
       return service.getArea(userToken, areaId);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       throw new ServiceNotAvailableException("Rmi problem: ", e);
     }
   }

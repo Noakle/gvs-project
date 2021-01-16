@@ -13,6 +13,8 @@ import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.rzdf.sockets.BDrzdfServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 /**
  * Created by David Flaig and Rick Zolnierek on 11.11.2020
  */
@@ -46,13 +48,13 @@ public class rzdfDemoClient {
 
 
     public static void main(String[] args) throws IllegalParameterException,
-            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
+            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException, RemoteException {
 
         rzdfDemoClient qnAServiceDemo = new rzdfDemoClient(TestMode.SOCKET);
         qnAServiceDemo.runDemo();
     }
 
-    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
         QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
         commonDemo.runDemo(userManagementService, qnAService);
     }

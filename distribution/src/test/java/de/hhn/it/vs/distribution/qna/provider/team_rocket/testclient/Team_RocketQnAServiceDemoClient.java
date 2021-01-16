@@ -13,6 +13,8 @@ import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.team_rocket.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class Team_RocketQnAServiceDemoClient {
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(Team_RocketQnAServiceDemoClient.class);
@@ -46,8 +48,8 @@ public class Team_RocketQnAServiceDemoClient {
   }
 
   private void runDemo()
-      throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
-          UserNameAlreadyAssignedException {
+          throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
+          UserNameAlreadyAssignedException, RemoteException {
     QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
     qnAServiceDemoClient.runDemo(userManagementService, qnAService);
   }

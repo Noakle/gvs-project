@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.fdkh.rmi;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -23,27 +24,27 @@ public class RmiFdkhServiceImpl implements RmiFdkhService {
     }
 
     @Override
-    public long createArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
+    public long createArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException {
         return qnAService.createArea(userToken, area);
     }
 
     @Override
-    public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
+    public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException {
         return qnAService.createQuestion(userToken, areaId, question);
     }
 
     @Override
-    public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
+    public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException {
         return qnAService.createAnswer(userToken, areaId, questionId, answer);
     }
 
     @Override
-    public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
+    public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException {
         return qnAService.getAreaIds(userToken);
     }
 
     @Override
-    public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
+    public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException {
         return qnAService.getArea(userToken, areaId);
     }
 

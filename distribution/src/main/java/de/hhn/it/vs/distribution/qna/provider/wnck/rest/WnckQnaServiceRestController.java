@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.wnck.rest;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -39,7 +40,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas", method = RequestMethod.POST)
   public long createArea(@RequestHeader("Token") final String userTokenString,
                          @RequestBody final Area area) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createArea(userToken, area);
   }
@@ -47,7 +48,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}/questions", method = RequestMethod.POST)
   public long createQuestion(@RequestHeader("Token") final String userTokenString,
                              @PathVariable final long areaId, @RequestBody final Question question)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createQuestion(userToken, areaId, question);
   }
@@ -57,14 +58,14 @@ public class WnckQnaServiceRestController {
   public long createAnswer(@RequestHeader("Token") final String userTokenString,
                            @PathVariable final long areaId, @PathVariable final long questionId,
                            @RequestBody final Answer answer) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.createAnswer(userToken, areaId, questionId, answer);
   }
 
   @RequestMapping(value = "areas", method = RequestMethod.GET)
   public List<Long> getAreaIds(@RequestHeader("Token") final String userTokenString) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.getAreaIds(userToken);
   }
@@ -72,7 +73,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}", method = RequestMethod.GET)
   public Area getArea(@RequestHeader("Token") final String userTokenString,
                       @PathVariable final long areaId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
     Token userToken = new Token(userTokenString);
     return qnAService.getArea(userToken, areaId);
   }

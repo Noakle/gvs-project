@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.wnck.sockets;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -125,14 +126,14 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createArea(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     long id = (long) qnAService.createArea((Token) request.getParameter(USER_TOKEN),
             (Area) request.getParameter(AREA));
     return new Response(request, id);
   }
 
   private Response createQuestion(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     long id = (long) qnAService.createQuestion(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -141,7 +142,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createAnswer(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     long id = (long) qnAService.createAnswer(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -152,7 +153,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAreaIds(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     List<Long> idList = qnAService.getAreaIds(
             (Token) request.getParameter(USER_TOKEN)
     );
@@ -179,7 +180,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getArea(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     Area area = qnAService.getArea(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID)

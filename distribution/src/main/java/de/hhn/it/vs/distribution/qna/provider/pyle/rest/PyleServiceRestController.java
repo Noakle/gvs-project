@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.pyle.rest;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -21,32 +22,28 @@ public class PyleServiceRestController {
 
     @RequestMapping(value =" Area", method = RequestMethod.POST)
     @ResponseBody
-    public long createArea(@RequestHeader("token") String userToken, @RequestBody Area area ) throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException
-    {
+    public long createArea(@RequestHeader("token") String userToken, @RequestBody Area area ) throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, UserNameAlreadyAssignedException {
         Token token = new Token(userToken);
         return bdQnAService.createArea(token, area);
     }
 
     @RequestMapping(value =" Question", method = RequestMethod.POST)
     @ResponseBody
-    public long createQuestion(@RequestHeader("token") String usertoken, @PathVariable Long areaId, @RequestBody Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException
-    {
+    public long createQuestion(@RequestHeader("token") String usertoken, @PathVariable Long areaId, @RequestBody Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
         Token token = new Token(usertoken);
         return bdQnAService.createQuestion(token,areaId,question);
     }
 
     @RequestMapping(value =" Answer", method = RequestMethod.POST)
     @ResponseBody
-    public long createAnswer(@RequestHeader("token") String usertoken, @PathVariable Long areaId, @PathVariable Long questionId, @RequestBody Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException
-    {
+    public long createAnswer(@RequestHeader("token") String usertoken, @PathVariable Long areaId, @PathVariable Long questionId, @RequestBody Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
         Token token = new Token (usertoken);
         return bdQnAService.createAnswer(token, areaId,questionId,answer);
     }
 
     @RequestMapping(value =" AreaIds", method = RequestMethod.GET)
     @ResponseBody
-    public List<Long> getAreaIds(@RequestHeader("token") String usertoken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException
-    {
+    public List<Long> getAreaIds(@RequestHeader("token") String usertoken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
         Token token = new Token(usertoken);
         return bdQnAService.getAreaIds(token);
     }
@@ -54,8 +51,7 @@ public class PyleServiceRestController {
 
     @RequestMapping(value =" AreaId", method = RequestMethod.GET)
     @ResponseBody
-    public Area getArea(@RequestHeader("token") String usertoken, @PathVariable Long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException
-    {
+    public Area getArea(@RequestHeader("token") String usertoken, @PathVariable Long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
         Token token = new Token(usertoken);
         return bdQnAService.getArea(token, areaId);
     }

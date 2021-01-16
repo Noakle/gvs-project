@@ -1,12 +1,14 @@
 package de.hhn.it.vs.distribution.qna.provider.pyle.sockets;
 
-import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.Token;
-import de.hhn.it.vs.common.core.usermanagement.User;
 import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
+import de.hhn.it.vs.common.qna.model.Answer;
+import de.hhn.it.vs.common.qna.model.Area;
+import de.hhn.it.vs.common.qna.model.Question;
+import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.sockets.Request;
 import de.hhn.it.vs.distribution.sockets.Response;
 
@@ -14,20 +16,21 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
-import static de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient.*;
-import static de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.UserManagementServiceServeOneClient.PARAM_NAME;
+import static de.hhn.it.vs.distribution.qna.provider.pyle.sockets.PyleServiceServeOneClient.*;
 
-public class BDPyleServiceViaSockets implements BDUserManagementService {
+public class BDPyleServiceViaSockets implements BDQnAService {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(BDPyleServiceViaSockets.class);
 
     private String hostName;
     private int portNummer;
     private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+   // private PrintWriter out;
+    //private BufferedReader in;
     private ObjectOutputStream outObj;
     private ObjectInputStream inObj;
+
+
     public BDPyleServiceViaSockets(String hostName, int portNummer )
     {
             this.hostName = hostName;
@@ -41,8 +44,8 @@ public class BDPyleServiceViaSockets implements BDUserManagementService {
     public void startConnectionService(String ip, int port) throws ServiceNotAvailableException{
         try {
             clientSocket = new Socket(ip, port);
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            outObj = new ObjectOutputStream(clientSocket.getOutputStream());
+            inObj = new ObjectInputStream(clientSocket.getInputStream());
         }catch(Exception ex)
         {
             ex.printStackTrace();
@@ -53,8 +56,8 @@ public class BDPyleServiceViaSockets implements BDUserManagementService {
 
     public void stopConnectionService() throws ServiceNotAvailableException {
         try {
-            in.close();
-            out.close();
+            inObj.close();
+            outObj.close();
             clientSocket.close();
         }catch (Exception ex)
         {
@@ -113,30 +116,12 @@ public class BDPyleServiceViaSockets implements BDUserManagementService {
         throw new ServiceNotAvailableException("Unknown exception received in response object.",
                 exceptionFromRemote);
     }
-    /**
-     * Registers a user in the system.
-     *
-     * @param email    identifies the user
-     * @param password authenticates the user to get access to his token. The password has to contain
-     *                 at minimum four characters.
-     * @param name     nick name of the user to be used in UIs. This nick name has to contain at
-     *                 minimum
-     *                 two visible characters.
-     * @return Token identifying the user
-     * @throws IllegalParameterException        if one of the parameters doesn't match the
-     *                                          specification
-     * @throws UserNameAlreadyAssignedException if the nick name is already assigned to another user
-     * @throws ServiceNotAvailableException     if the service cannot be provided
-     */
+
+
     @Override
-    public Token register(String email, String password, String name) throws IllegalParameterException, UserNameAlreadyAssignedException, ServiceNotAvailableException {
-        Request request = new Request(REGISTER)
-                .addParameter(PARAM_EMAIL, email)
-                .addParameter(PARAM_SECRET, password)
-                .addParameter(PARAM_NAME, name);
-
+    public long createArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
+        Request request = new Request(CREATE_AREA);
         Response response = sendAndGetResponse(request);
-
         if (response.isException()) {
             Exception exceptionFromRemote = response.getExceptionObject();
 
@@ -152,31 +137,22 @@ public class BDPyleServiceViaSockets implements BDUserManagementService {
 
             rethrowUnexpectedException(exceptionFromRemote);
         }
-        return (Token) response.getReturnObject();
+        return (long) response.getReturnObject();
+
     }
 
-    /**
-     * Login for a registered user, e.g. from another device or after restart of a client
-     *
-     * @param email    identifies the user
-     * @param password authenticates the user
-     * @return Token identifying the user
-     * @throws IllegalParameterException    if email or password do not match the values in the user
-     *                                      management service
-     * @throws ServiceNotAvailableException if the service cannot be provided
-     */
     @Override
-    public Token login(String email, String password) throws IllegalParameterException, ServiceNotAvailableException {
-        Request request = new Request(LOGIN)
-                .addParameter(PARAM_EMAIL, email)
-                .addParameter(PARAM_SECRET, password);
+    public long createQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
+        Request request = new Request(CREATE_QUESTION);
         Response response = sendAndGetResponse(request);
-
         if (response.isException()) {
             Exception exceptionFromRemote = response.getExceptionObject();
 
             if (exceptionFromRemote instanceof IllegalParameterException) {
                 throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
             }
             if (exceptionFromRemote instanceof ServiceNotAvailableException) {
                 throw (ServiceNotAvailableException) exceptionFromRemote;
@@ -184,53 +160,108 @@ public class BDPyleServiceViaSockets implements BDUserManagementService {
 
             rethrowUnexpectedException(exceptionFromRemote);
         }
-        return (Token) response.getReturnObject();
+        return (long) response.getReturnObject();
     }
 
-    /**
-     * returns user info related to the given token.
-     *
-     * @param userToken token identifying the user
-     * @return User object related to the given token
-     * @throws IllegalParameterException    if a null reference is given
-     * @throws InvalidTokenException        if the token is no valid token from this user
-     *                                      management service
-     * @throws ServiceNotAvailableException if the service cannot be provided
-     */
     @Override
-    public User resolveUser(Token userToken) throws IllegalParameterException, InvalidTokenException, ServiceNotAvailableException {
+    public long createAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
+        Request request = new Request(CREATE_ANSWERE);
+        Response response = sendAndGetResponse(request);
+        if (response.isException()) {
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+
+            rethrowUnexpectedException(exceptionFromRemote);
+        }
+        return (long) response.getReturnObject();
+
+    }
+
+    @Override
+    public List<Long> getAreaIds(Token userToken) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
+        Request request = new Request(GET_AREA_IDS);
+        Response response = sendAndGetResponse(request);
+        if (response.isException()) {
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+
+            rethrowUnexpectedException(exceptionFromRemote);
+        }
+        return (List<Long>) response.getReturnObject();
+    }
+
+    @Override
+    public Area getArea(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException {
+        Request request = new Request(GET_AREA);
+        Response response = sendAndGetResponse(request);
+        if (response.isException()) {
+            Exception exceptionFromRemote = response.getExceptionObject();
+
+            if (exceptionFromRemote instanceof IllegalParameterException) {
+                throw (IllegalParameterException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof UserNameAlreadyAssignedException) {
+                throw (UserNameAlreadyAssignedException) exceptionFromRemote;
+            }
+            if (exceptionFromRemote instanceof ServiceNotAvailableException) {
+                throw (ServiceNotAvailableException) exceptionFromRemote;
+            }
+
+            rethrowUnexpectedException(exceptionFromRemote);
+        }
+        return (Area) response.getReturnObject();
+    }
+
+    @Override
+    public List<Long> getQuestionIds(Token userToken, long areaId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         return null;
     }
 
-    /**
-     * Returns a list of registered users. This method is for admin or debug purposes.
-     *
-     * @param userToken token identifying the user
-     * @return List of User objects
-     * @throws IllegalParameterException    if a null reference is given
-     * @throws InvalidTokenException        if the token is no valid token from this user
-     *                                      management service
-     * @throws ServiceNotAvailableException if the service cannot be provided
-     */
     @Override
-    public List<User> getUsers(Token userToken) throws IllegalParameterException, InvalidTokenException, ServiceNotAvailableException {
+    public Question getQuestion(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
         return null;
     }
 
-    /**
-     * Allows the user to change his nick name.
-     *
-     * @param userToken Token identifying the user
-     * @param newName   new nick name. Must the same specification as in the register method.
-     * @throws IllegalParameterException        if either the token is a null reference or the name
-     *                                          does not match the specification.
-     * @throws InvalidTokenException            if the token is no valid token from this user
-     *                                          management service
-     * @throws UserNameAlreadyAssignedException if the name is already used by another user
-     * @throws ServiceNotAvailableException     if the service cannot be provided
-     */
     @Override
-    public void changeName(Token userToken, String newName) throws IllegalParameterException, InvalidTokenException, UserNameAlreadyAssignedException, ServiceNotAvailableException {
+    public List<Long> getAnswerIds(Token userToken, long areaId, long questionId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+        return null;
+    }
+
+    @Override
+    public Answer getAnswer(Token userToken, long areaId, long questionId, long answerId) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+        return null;
+    }
+
+    @Override
+    public void updateArea(Token userToken, Area area) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+
+    }
+
+    @Override
+    public void updateQuestion(Token userToken, long areaId, Question question) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+
+    }
+
+    @Override
+    public void updateAnswer(Token userToken, long areaId, long questionId, Answer answer) throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
 
     }
 }

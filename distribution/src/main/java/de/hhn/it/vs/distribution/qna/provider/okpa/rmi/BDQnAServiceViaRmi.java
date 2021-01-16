@@ -1,6 +1,7 @@
 package de.hhn.it.vs.distribution.qna.provider.okpa.rmi;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -55,7 +56,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     try {
       checkRemoteReference();
       return service.createArea(userToken, area);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       logger.warn("Problems with RMI: " + e.getMessage());
       throw new ServiceNotAvailableException(e);
     }
@@ -67,7 +68,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     try {
       checkRemoteReference();
       return service.createQuestion(userToken, areaId, question);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       logger.warn("Problems with RMI: " + e.getMessage());
       throw new ServiceNotAvailableException(e);
     }
@@ -79,7 +80,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     try {
       checkRemoteReference();
       return service.createAnswer(userToken, areaId, questionId, answer);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       logger.warn("Problems with RMI: " + e.getMessage());
       throw new ServiceNotAvailableException(e);
     }
@@ -91,7 +92,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     try {
       checkRemoteReference();
       return service.getAreaIds(userToken);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       logger.warn("Problems with RMI: " + e.getMessage());
       throw new ServiceNotAvailableException(e);
     }
@@ -103,7 +104,7 @@ public class BDQnAServiceViaRmi implements BDQnAService {
     try {
       checkRemoteReference();
       return service.getArea(userToken, areaId);
-    } catch (RemoteException e) {
+    } catch (RemoteException | UserNameAlreadyAssignedException e) {
       logger.warn("Problems with RMI: " + e.getMessage());
       throw new ServiceNotAvailableException(e);
     }

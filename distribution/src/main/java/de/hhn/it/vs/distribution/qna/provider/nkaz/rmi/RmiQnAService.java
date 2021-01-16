@@ -22,19 +22,19 @@ public interface RmiQnAService extends Remote {
   public static final String REGISTRY_KEY = "qna.nkaz";
 
   public long createArea(Token userToken, Area area)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException;
 
   public long createQuestion(Token userToken, long areaId, Question question)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException;
 
   public long createAnswer(Token userToken, long areaId, long questionId, Answer answer)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException;
 
   public List<Long> getAreaIds(Token userToken)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException;
 
   public Area getArea(Token userToken, long areaId)
-      throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException, UserNameAlreadyAssignedException;
 
   public List<Long> getQuestionIds(Token userToken, long areaId)
       throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException;

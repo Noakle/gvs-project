@@ -2,6 +2,7 @@ package de.hhn.it.vs.common.qna.junit;
 
 import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.core.usermanagement.User;
+import de.hhn.it.vs.common.core.usermanagement.UserNameAlreadyAssignedException;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
@@ -27,7 +28,7 @@ public class TestQuestionsBadCases {
 
   @BeforeEach
   public void setup() throws IllegalParameterException, ServiceNotAvailableException,
-          InvalidTokenException {
+          InvalidTokenException, UserNameAlreadyAssignedException {
     UserManagementMock userManagementService = new UserManagementMock();
     List<User> users =
             userManagementService.getMockUsers();
