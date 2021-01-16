@@ -14,6 +14,7 @@ import de.hhn.it.vs.distribution.sockets.Response;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class QnAServiceServeOneClient extends AbstractServeOneClient {
@@ -125,14 +126,14 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createArea(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     long id = (long) qnAService.createArea((Token) request.getParameter(USER_TOKEN),
             (Area) request.getParameter(AREA));
     return new Response(request, id);
   }
 
   private Response createQuestion(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     long id = (long) qnAService.createQuestion(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -141,7 +142,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response createAnswer(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     long id = (long) qnAService.createAnswer(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -152,7 +153,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAreaIds(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     List<Long> idList = qnAService.getAreaIds(
             (Token) request.getParameter(USER_TOKEN)
     );
@@ -160,7 +161,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getQuestionIds(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     List<Long> idList = qnAService.getQuestionIds(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID)
@@ -169,7 +170,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAnswerIds(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     List<Long> idList = qnAService.getAnswerIds(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -179,7 +180,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getArea(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     Area area = qnAService.getArea(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID)
@@ -188,7 +189,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getQuestion(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     Question question = qnAService.getQuestion(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -198,7 +199,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response getAnswer(final Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     Answer answer = qnAService.getAnswer(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -209,7 +210,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response updateArea(Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     qnAService.updateArea(
             (Token) request.getParameter(USER_TOKEN),
             (Area) request.getParameter(AREA)
@@ -218,7 +219,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response updateQuestion(Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     qnAService.updateQuestion(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),
@@ -228,7 +229,7 @@ public class QnAServiceServeOneClient extends AbstractServeOneClient {
   }
 
   private Response updateAnswer(Request request) throws IllegalParameterException,
-          InvalidTokenException, ServiceNotAvailableException {
+          InvalidTokenException, ServiceNotAvailableException, RemoteException {
     qnAService.updateAnswer(
             (Token) request.getParameter(USER_TOKEN),
             (long) request.getParameter(AREA_ID),

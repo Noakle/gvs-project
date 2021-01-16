@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 @Import(RestCCConfiguration.class)
@@ -39,7 +40,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas", method = RequestMethod.POST)
   public long createArea(@RequestHeader("Token") final String userTokenString,
                          @RequestBody final Area area) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.createArea(userToken, area);
   }
@@ -47,7 +48,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}/questions", method = RequestMethod.POST)
   public long createQuestion(@RequestHeader("Token") final String userTokenString,
                              @PathVariable final long areaId, @RequestBody final Question question)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.createQuestion(userToken, areaId, question);
   }
@@ -57,14 +58,14 @@ public class WnckQnaServiceRestController {
   public long createAnswer(@RequestHeader("Token") final String userTokenString,
                            @PathVariable final long areaId, @PathVariable final long questionId,
                            @RequestBody final Answer answer) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.createAnswer(userToken, areaId, questionId, answer);
   }
 
   @RequestMapping(value = "areas", method = RequestMethod.GET)
   public List<Long> getAreaIds(@RequestHeader("Token") final String userTokenString) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getAreaIds(userToken);
   }
@@ -72,7 +73,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}", method = RequestMethod.GET)
   public Area getArea(@RequestHeader("Token") final String userTokenString,
                       @PathVariable final long areaId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getArea(userToken, areaId);
   }
@@ -80,7 +81,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}/questions", method = RequestMethod.GET)
   public List<Long> getQuestionIds(@RequestHeader("Token") final String userTokenString,
                                    @PathVariable final long areaId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getQuestionIds(userToken, areaId);
   }
@@ -89,7 +90,7 @@ public class WnckQnaServiceRestController {
   public Question getQuestion(@RequestHeader("Token") final String userTokenString,
                               @PathVariable final long areaId,
                               @PathVariable final long questionId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getQuestion(userToken, areaId, questionId);
   }
@@ -99,7 +100,7 @@ public class WnckQnaServiceRestController {
   public List<Long> getAnswerIds(@RequestHeader("Token") final String userTokenString,
                                  @PathVariable final long areaId,
                                  @PathVariable final long questionId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getAnswerIds(userToken, areaId, questionId);
   }
@@ -109,7 +110,7 @@ public class WnckQnaServiceRestController {
   public Answer getAnswer(@RequestHeader("Token") final String userTokenString,
                           @PathVariable final long areaId, @PathVariable final long questionId,
                           @PathVariable final long answerId) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     return qnAService.getAnswer(userToken, areaId, questionId, answerId);
   }
@@ -117,7 +118,7 @@ public class WnckQnaServiceRestController {
   @RequestMapping(value = "areas/{areaId}", method = RequestMethod.PUT)
   public void updateArea(@RequestHeader("Token") final String userTokenString,
                          @PathVariable @RequestBody final Area area)
-          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException {
+          throws ServiceNotAvailableException, IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     qnAService.updateArea(userToken, area);
   }
@@ -126,7 +127,7 @@ public class WnckQnaServiceRestController {
   public void updateQuestion(@RequestHeader("Token") final String userTokenString,
                              @PathVariable final long areaId,
                              @RequestBody final Question question) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     qnAService.updateQuestion(userToken, areaId, question);
   }
@@ -136,7 +137,7 @@ public class WnckQnaServiceRestController {
   public void updateAnswer(@RequestHeader("Token") final String userTokenString,
                            @PathVariable final long areaId, @PathVariable final long questionId,
                            @RequestBody final Answer answer) throws ServiceNotAvailableException,
-          IllegalParameterException, InvalidTokenException {
+          IllegalParameterException, InvalidTokenException, RemoteException {
     Token userToken = new Token(userTokenString);
     qnAService.updateAnswer(userToken, areaId, questionId, answer);
   }

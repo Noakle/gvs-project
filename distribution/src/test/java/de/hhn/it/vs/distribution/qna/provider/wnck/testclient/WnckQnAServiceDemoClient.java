@@ -17,6 +17,8 @@ import de.hhn.it.vs.distribution.qna.provider.wnck.rmi.WnckQnAServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.wnck.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class WnckQnAServiceDemoClient {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(WnckQnAServiceDemoClient.class);
@@ -53,13 +55,13 @@ public class WnckQnAServiceDemoClient {
 
 
   public static void main(String[] args) throws IllegalParameterException,
-          ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
+          ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException, RemoteException {
 
     WnckQnAServiceDemoClient qnAServiceDemo = new WnckQnAServiceDemoClient(TestMode.REST);
     qnAServiceDemo.runDemo();
   }
 
-  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
     QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
     commonDemo.runDemo(userManagementService, qnAService);
   }

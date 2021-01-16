@@ -16,6 +16,8 @@ import de.hhn.it.vs.distribution.qna.provider.okpa.rmi.BDQnAServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.okpa.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class OkpaQnADemoClient {
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(WnckUserManagementDemoClient.class);
@@ -51,14 +53,14 @@ public class OkpaQnADemoClient {
   }
   
   private void runDemo() throws InvalidTokenException, IllegalParameterException,
-                                    ServiceNotAvailableException, UserNameAlreadyAssignedException {
+          ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
     QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
     qnAServiceDemoClient.runDemo(userManagementService, qnAService);
   }
   
   public static void main(String[] args)
-      throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
-                 UserNameAlreadyAssignedException {
+          throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
+          UserNameAlreadyAssignedException, RemoteException {
     OkpaQnADemoClient client = new OkpaQnADemoClient(TestMode.RMI);
     client.runDemo();
   }

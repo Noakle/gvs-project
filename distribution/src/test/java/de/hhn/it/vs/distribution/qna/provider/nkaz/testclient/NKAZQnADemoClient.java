@@ -17,6 +17,8 @@ import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.BDQnAServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class NKAZQnADemoClient {
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(NKAZQnADemoClient.class);
@@ -57,8 +59,8 @@ public class NKAZQnADemoClient {
   }
 
   private void runDemo()
-      throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
-          UserNameAlreadyAssignedException {
+          throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
+          UserNameAlreadyAssignedException, RemoteException {
     QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
     qnAServiceDemoClient.runDemo(userManagementService, qnAService);
   }

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,7 +28,7 @@ public class TestQuestionsBadCases {
 
   @BeforeEach
   public void setup() throws IllegalParameterException, ServiceNotAvailableException,
-          InvalidTokenException {
+          InvalidTokenException, RemoteException {
     UserManagementMock userManagementService = new UserManagementMock();
     List<User> users =
             userManagementService.getMockUsers();

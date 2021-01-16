@@ -4,14 +4,16 @@ import de.hhn.it.vs.common.core.usermanagement.Token;
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
-import de.hhn.it.vs.common.qna.model.*;
+import de.hhn.it.vs.common.qna.model.Answer;
+import de.hhn.it.vs.common.qna.model.Area;
+import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
-import de.hhn.it.vs.distribution.qna.provider.fdkh.rmi.BDFdkhServiceViaRmi;
 import de.hhn.it.vs.distribution.rest.RestCCConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 @Import(RestCCConfiguration.class)
@@ -31,7 +33,7 @@ public class FdkhServiceRestController {
     @RequestMapping(value = "area", method = RequestMethod.POST)
     public
     long createArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area )
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("createArea");
         Token userToken = new Token(userTokenString);
         return qnAService.createArea(userToken, area);
@@ -41,7 +43,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     long createQuestion(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @RequestBody Question question)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("createQuestion");
         Token userToken = new Token(userTokenString);
         return qnAService.createQuestion(userToken, areaId, question);
@@ -51,7 +53,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     long createAnswer(@RequestHeader("Token") String userTokenString,@PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("createAnswere");
         Token userToken = new Token(userTokenString);
         return qnAService.createAnswer(userToken, areaId, questionId, answer);
@@ -61,7 +63,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     List<Long> getAreaIds(@RequestHeader("Token") String userTokenString)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getAreaIds");
         Token userToken = new Token(userTokenString);
         return qnAService.getAreaIds(userToken);
@@ -71,7 +73,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     Area getArea(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getArea");
         Token userToken = new Token(userTokenString);
         return qnAService.getArea(userToken, areaId);
@@ -81,7 +83,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     List<Long> getQuestionIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getQuestionIds");
         Token userToken = new Token(userTokenString);
         return qnAService.getQuestionIds(userToken, areaId);
@@ -91,7 +93,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     Question getQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getQuestion");
         Token userToken = new Token(userTokenString);
         return qnAService.getQuestion(userToken, areaId, questionId);
@@ -101,7 +103,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     List<Long> getAnswerIds(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getAnswerIds");
         Token userToken = new Token(userTokenString);
         return qnAService.getAnswerIds(userToken, areaId, questionId);
@@ -111,7 +113,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     Answer getAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @PathVariable long answerId)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("getAnswer");
         Token userToken = new Token(userTokenString);
         return qnAService.getAnswer(userToken, areaId, questionId, answerId);
@@ -121,7 +123,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     void updateArea(@RequestHeader("Token") String userTokenString, @RequestBody Area area)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("updateArea");
         Token userToken = new Token(userTokenString);
         qnAService.updateArea(userToken, area);
@@ -131,7 +133,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     void updateQuestion(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @RequestBody Question question)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("updateQuestion");
         Token userToken = new Token(userTokenString);
         qnAService.updateQuestion(userToken, areaId, question);
@@ -141,7 +143,7 @@ public class FdkhServiceRestController {
     @ResponseBody
     public
     void updateAnswer(@RequestHeader("Token") String userTokenString, @PathVariable long areaId, @PathVariable long questionId, @RequestBody Answer answer)
-            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException{
+            throws InvalidTokenException, ServiceNotAvailableException, IllegalParameterException, RemoteException {
         logger.info("updateAnswer");
         Token userToken = new Token(userTokenString);
         qnAService.updateAnswer(userToken, areaId, questionId, answer);

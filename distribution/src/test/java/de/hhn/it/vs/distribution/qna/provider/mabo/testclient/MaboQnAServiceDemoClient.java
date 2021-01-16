@@ -14,6 +14,8 @@ import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.mabo.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class MaboQnAServiceDemoClient {
   private static final org.slf4j.Logger logger =
     org.slf4j.LoggerFactory.getLogger(WnckUserManagementDemoClient.class);
@@ -43,12 +45,12 @@ public class MaboQnAServiceDemoClient {
     }
   }
 
-  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
     QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
     commonDemo.runDemo(userManagementService, qnAService);
   }
 
-  public static void main(String[] args) throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+  public static void main(String[] args) throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
     MaboQnAServiceDemoClient maboQnAServiceDemoClient = new MaboQnAServiceDemoClient(TestMode.SOCKET);
     maboQnAServiceDemoClient.runDemo();
   }

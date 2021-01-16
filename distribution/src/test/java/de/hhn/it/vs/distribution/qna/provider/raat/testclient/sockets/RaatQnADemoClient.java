@@ -13,6 +13,8 @@ import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.qna.provider.raat.sockets.BDqnaServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class RaatQnADemoClient {
 
     private static final org.slf4j.Logger logger =
@@ -49,7 +51,7 @@ public class RaatQnADemoClient {
     }
 
     private void runDemo() throws InvalidTokenException, IllegalParameterException,
-        ServiceNotAvailableException, UserNameAlreadyAssignedException {
+            ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
       QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
       qnAServiceDemoClient.runDemo(userManagementService, qnAService);
     }

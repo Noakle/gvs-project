@@ -17,6 +17,8 @@ import de.hhn.it.vs.distribution.qna.provider.fdkh.socket.BDfdkhServiceViaSocket
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class fdkhDemoClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(fdkhDemoClient.class);
@@ -53,13 +55,13 @@ public class fdkhDemoClient {
 
 
     public static void main(String[] args) throws IllegalParameterException,
-            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
+            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException, RemoteException {
 
         fdkhDemoClient qnAServiceDemo = new fdkhDemoClient(TestMode.REST);
         qnAServiceDemo.runDemo();
     }
 
-    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
         QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
         commonDemo.runDemo(userManagementService, qnAService);
     }

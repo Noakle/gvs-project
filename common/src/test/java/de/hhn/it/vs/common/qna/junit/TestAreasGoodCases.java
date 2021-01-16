@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,7 @@ public class TestAreasGoodCases {
   @Test
   @DisplayName("create multiple areas")
   public void createMultipleAreas() throws IllegalParameterException,
-          ServiceNotAvailableException, InvalidTokenException {
+          ServiceNotAvailableException, InvalidTokenException, RemoteException {
     long areaId1 = service.createArea(token1, area1);
     long areaId2 = service.createArea(token1, area2);
     long areaId3 = service.createArea(token1, area3);
@@ -57,7 +58,7 @@ public class TestAreasGoodCases {
   @Test
   @DisplayName("get ids of multiple areas")
   public void getIdsOfMultipleAreas() throws IllegalParameterException,
-          ServiceNotAvailableException, InvalidTokenException {
+          ServiceNotAvailableException, InvalidTokenException, RemoteException {
     long areaId1 = service.createArea(token1, area1);
     long areaId2 = service.createArea(token1, area2);
     long areaId3 = service.createArea(token1, area3);
@@ -72,7 +73,7 @@ public class TestAreasGoodCases {
   @Test
   @DisplayName("create and get area")
   public void createAndGetArea() throws IllegalParameterException, ServiceNotAvailableException,
-          InvalidTokenException {
+          InvalidTokenException, RemoteException {
     long areaId1 = service.createArea(token1, area1);
     Area areafromService = service.getArea(token1, areaId1);
     assertEquals(area1.getDescription(), areafromService.getDescription());
@@ -83,7 +84,7 @@ public class TestAreasGoodCases {
   @Test
   @DisplayName("update an area")
   public void updateAnArea() throws IllegalParameterException, ServiceNotAvailableException,
-          InvalidTokenException {
+          InvalidTokenException, RemoteException {
     long areaId1 = service.createArea(token1, area1);
     Area areafromService = service.getArea(token1, areaId1);
     Area updatedArea = new Area(areafromService);

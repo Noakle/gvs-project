@@ -13,6 +13,8 @@ import de.hhn.it.vs.common.qna.service.BDQnAService;
 import de.hhn.it.vs.distribution.qna.provider.lhke.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
+import java.rmi.RemoteException;
+
 public class LhKeQnAServiceDemoClient {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(de.hhn.it.vs.distribution.qna.provider.wnck.testclient.WnckQnAServiceDemoClient.class);
@@ -43,13 +45,13 @@ public class LhKeQnAServiceDemoClient {
 
 
     public static void main(String[] args) throws IllegalParameterException,
-            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
+            ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException, RemoteException {
 
         LhKeQnAServiceDemoClient demoClient = new LhKeQnAServiceDemoClient(TestMode.SOCKET);
         demoClient.runDemo();
     }
 
-    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+    private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException, RemoteException {
         QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
         commonDemo.runDemo(userManagementService, qnAService);
     }
