@@ -6,9 +6,15 @@ import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManageme
 import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rest.BDUserManagementServiceViaRest;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.qna.provider.wnck.rest.BDQnAServiceViaRest;
+import de.hhn.it.vs.distribution.qna.provider.wnck.rmi.WnckQnAServiceViaRmi;
+import de.hhn.it.vs.distribution.qna.provider.wnck.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 public class WnckQnAServiceDemoClient {
@@ -29,8 +35,17 @@ public class WnckQnAServiceDemoClient {
         qnAService = new WnckQnAService(userManagementService);
         break;
       case SOCKET:
+        userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+        qnAService = new BDQnAServiceViaSockets("localhost", 1100);
+        break;
       case RMI:
+        userManagementService = new BDUserManagementServiceViaRmi("localhost", 1099);
+        qnAService = new WnckQnAServiceViaRmi("localhost", 1099);
+        break;
       case REST:
+        userManagementService = new BDUserManagementServiceViaRest("http://localhost:8080/usermanagementservice/");
+        qnAService = new BDQnAServiceViaRest("http://localhost:8080/wnckqnaservice/");
+        break;
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
     }
@@ -40,7 +55,7 @@ public class WnckQnAServiceDemoClient {
   public static void main(String[] args) throws IllegalParameterException,
           ServiceNotAvailableException, UserNameAlreadyAssignedException, InvalidTokenException {
 
-    WnckQnAServiceDemoClient qnAServiceDemo = new WnckQnAServiceDemoClient(TestMode.MOCK);
+    WnckQnAServiceDemoClient qnAServiceDemo = new WnckQnAServiceDemoClient(TestMode.REST);
     qnAServiceDemo.runDemo();
   }
 

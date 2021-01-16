@@ -8,8 +8,12 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.qna.provider.wnck.WnckQnAService;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rest.BDUserManagementServiceViaRest;
+import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.rmi.BDUserManagementServiceViaRmi;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
 import de.hhn.it.vs.distribution.qna.QnAServiceDemoClient;
+import de.hhn.it.vs.distribution.qna.provider.nkaz.rest.BDQnAServiceViaRest;
+import de.hhn.it.vs.distribution.qna.provider.nkaz.rmi.BDQnAServiceViaRmi;
 import de.hhn.it.vs.distribution.qna.provider.nkaz.sockets.BDQnAServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
@@ -34,18 +38,27 @@ public class NKAZQnADemoClient {
         userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
         break;
       case RMI:
+        userManagementService = new BDUserManagementServiceViaRmi("localhost", 1099);
+        qnAService = new BDQnAServiceViaRmi("localhost", 1099);
+        break;
       case REST:
+        userManagementService =
+            new BDUserManagementServiceViaRest("http://localhost:8080/usermanagementservice/");
+        qnAService = new BDQnAServiceViaRest("http://localhost:8080/qnaservice/");
+        break;
       default:
         throw new IllegalArgumentException("Unknown or unimplemented distribution mode: " + mode);
     }
   }
 
   public static void main(String[] args) throws Exception {
-    NKAZQnADemoClient client = new NKAZQnADemoClient(TestMode.SOCKET);
+    NKAZQnADemoClient client = new NKAZQnADemoClient(TestMode.REST);
     client.runDemo();
   }
 
-  private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
+  private void runDemo()
+      throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException,
+          UserNameAlreadyAssignedException {
     QnAServiceDemoClient qnAServiceDemoClient = new QnAServiceDemoClient();
     qnAServiceDemoClient.runDemo(userManagementService, qnAService);
   }
