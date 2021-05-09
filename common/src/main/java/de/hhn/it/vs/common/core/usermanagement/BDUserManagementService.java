@@ -5,6 +5,7 @@ import de.hhn.it.vs.common.exceptions.IllegalParameterException;
 import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public interface BDUserManagementService {
    * @throws ServiceNotAvailableException     if the service cannot be provided
    */
   Token register(String email, String password, String name) throws IllegalParameterException,
-          UserNameAlreadyAssignedException, ServiceNotAvailableException;
+          UserNameAlreadyAssignedException, ServiceNotAvailableException, IOException;
 
   /**
    * Login for a registered user, e.g. from another device or after restart of a client

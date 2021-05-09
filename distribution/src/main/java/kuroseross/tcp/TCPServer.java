@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * Simple server to demonstrate easy TCP communication sending strings
  */
-public class TCPServer {
+public class  TCPServer {
   /**
    * Logger, named using the complete class name.
    */

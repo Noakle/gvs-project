@@ -10,6 +10,8 @@ import de.hhn.it.vs.common.exceptions.InvalidTokenException;
 import de.hhn.it.vs.common.exceptions.ServiceNotAvailableException;
 import de.hhn.it.vs.common.helper.UserManagementMock;
 
+import java.io.IOException;
+
 public class UserManagementDemoClient {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(UserManagementDemoClient.class);
@@ -22,7 +24,7 @@ public class UserManagementDemoClient {
   public static final String USER2_EMAIL = UserManagementMock.USER2_USER_DE;
 
 
-  public void runDemo(BDUserManagementService userManagementService) {
+  public void runDemo(BDUserManagementService userManagementService) throws IOException {
     try {
       logger.debug("register first user ...");
       Token token1 = userManagementService.register(USER1_EMAIL, SECRET, USER1);

@@ -1,10 +1,12 @@
-package de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.testclient;
+package de.hhn.it.vs.distribution.lupa.provider.testclient;
 
 
 import de.hhn.it.vs.common.core.usermanagement.BDUserManagementService;
 import de.hhn.it.vs.common.core.usermanagement.provider.wnck.bd.WnckUserManagementService;
 import de.hhn.it.vs.distribution.core.usermanagement.UserManagementDemoClient;
 import de.hhn.it.vs.distribution.core.usermanagement.provider.wnck.sockets.BDUserManagementServiceViaSockets;
+import de.hhn.it.vs.distribution.lupa.provider.ComponentDemoClient;
+import de.hhn.it.vs.distribution.lupa.provider.sockets.BDComponentServiceViaSockets;
 import de.hhn.it.vs.distribution.testsupport.TestMode;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ public class WnckUserManagementDemoClient {
           org.slf4j.LoggerFactory.getLogger(WnckUserManagementDemoClient.class);
 
   BDUserManagementService userManagementService;
+  BDComponentServiceViaSockets userManegementServiceLupa;
 
 
   public WnckUserManagementDemoClient(TestMode mode) {
@@ -26,7 +29,7 @@ public class WnckUserManagementDemoClient {
         userManagementService = new WnckUserManagementService();
         break;
       case SOCKET:
-        userManagementService = new BDUserManagementServiceViaSockets("localhost", 1099);
+        userManegementServiceLupa = new BDComponentServiceViaSockets("localhost", 1099);
         break;
       case RMI:
       case REST:
@@ -36,11 +39,12 @@ public class WnckUserManagementDemoClient {
   }
 
   private void runDemo() throws IOException {
-    UserManagementDemoClient userManagementDemoClient = new UserManagementDemoClient();
-    userManagementDemoClient.runDemo(userManagementService);
+    ComponentDemoClient componentDemoClient = new ComponentDemoClient();
+    componentDemoClient.runDemo(userManegementServiceLupa);
   }
 
   public static void main(String[] args) {
+    //BDComponentServiceViaSockets userManegementServiceLupa = new BDComponentServiceViaSockets("www.javaworld.com", 80);
     WnckUserManagementDemoClient client = new WnckUserManagementDemoClient(TestMode.SOCKET);
     try {
       client.runDemo();

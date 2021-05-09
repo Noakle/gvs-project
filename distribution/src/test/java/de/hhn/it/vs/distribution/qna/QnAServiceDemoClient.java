@@ -11,6 +11,7 @@ import de.hhn.it.vs.common.qna.model.Area;
 import de.hhn.it.vs.common.qna.model.Question;
 import de.hhn.it.vs.common.qna.service.BDQnAService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class QnAServiceDemoClient {
@@ -22,7 +23,7 @@ public class QnAServiceDemoClient {
 
   public void runDemo(BDUserManagementService userManagementService, BDQnAService service) throws IllegalParameterException,
           UserNameAlreadyAssignedException,
-          ServiceNotAvailableException, InvalidTokenException {
+          ServiceNotAvailableException, InvalidTokenException, IOException {
     Token aliceToken = userManagementService.register("alice@alice.de", "secret", "alice");
     Token bobToken = userManagementService.register("bob@bob.de", "secret", "bob");
 

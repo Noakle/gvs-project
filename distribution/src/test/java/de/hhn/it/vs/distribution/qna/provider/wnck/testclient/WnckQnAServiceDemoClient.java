@@ -46,7 +46,11 @@ public class WnckQnAServiceDemoClient {
 
   private void runDemo() throws InvalidTokenException, IllegalParameterException, ServiceNotAvailableException, UserNameAlreadyAssignedException {
     QnAServiceDemoClient commonDemo = new QnAServiceDemoClient();
-    commonDemo.runDemo(userManagementService, qnAService);
+    try {
+      commonDemo.runDemo(userManagementService, qnAService);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }
