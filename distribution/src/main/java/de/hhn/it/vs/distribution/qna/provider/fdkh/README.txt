@@ -1,2 +1,0 @@
-Karen Hofele
-Florian Domino

@@ -1,2 +1,0 @@
-Giovanni Migliozzi
-Pascal Rausch

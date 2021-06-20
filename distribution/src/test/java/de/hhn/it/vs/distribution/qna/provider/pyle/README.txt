@@ -1,2 +1,0 @@
-Peguy  Yopa
-Luciola Eyango

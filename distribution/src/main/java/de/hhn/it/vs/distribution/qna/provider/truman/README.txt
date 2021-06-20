@@ -1,2 +1,0 @@
-Henri Truetsch
-Ansgar Koopmann

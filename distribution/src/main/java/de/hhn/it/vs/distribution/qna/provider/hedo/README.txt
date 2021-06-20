@@ -1,2 +1,0 @@
-Dolunay Karabacak
-Heiko Graceffa

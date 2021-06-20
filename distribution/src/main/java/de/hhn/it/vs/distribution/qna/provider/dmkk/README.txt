@@ -1,2 +1,0 @@
-Darko Miklic
-Katharina Kuznecova
